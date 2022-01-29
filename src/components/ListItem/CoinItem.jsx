@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Divider } from 'react-native-element';
-import { AntDesign } from '@expo/vector-icons';
-import { AreaChart, Grid } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
+import { Divider } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   itemWrapper: {
@@ -76,7 +73,7 @@ const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, spa
         {/* rightSide */}
         <View style={styles.rightWrapper}>
           <Text style={styles.title}>${current_price.toLocaleString('en-Us', {currency: "USD"})}</Text>
-          <Text style={[styles.subtitle], { color: priceChangeColor }}>{price_change_percentage_24h.toFixed(2)}</Text>
+          <Text style={[styles.subtitle], { color: priceChangeColor }}>{price_change_percentage_24h.toFixed(2)}%</Text>
         </View>
       </View>
     </TouchableOpacity>
