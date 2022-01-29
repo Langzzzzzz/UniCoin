@@ -1,67 +1,85 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { Divider } from 'react-native-element';
 import { AntDesign } from '@expo/vector-icons';
 import { AreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
-
-
 const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-  },
-  title:{
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  text:{
-    marginRight:5,
-  },
-  coinContainer:{
+  itemWrapper: {
+    paddingHorizontal: 16,
+    marginTop: 24,
     flexDirection: "row",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'grey',
-    padding: 12,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  percentageChangeContainer:{
-    flexDirection: 'row',
-    backgroundColor: 'green',
-    opacity: 0.5,
-    paddingHorizontal: 5,
-    borderRadius: 5,
-  }
+  leftWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  image: {
+    height: 48,
+    width: 48,
+  },
+  middleWrapper: {
+    height: 48,
+    width: "40%",
+    alignItems: "center",
+  },
+  rightWrapper: {
+    alignItems: "flex-end"
+  },
+  titleWrapper: {
+    marginLeft: 8,
+  },
+
+  title: {
+    fontSize: 18
+  },
+  subtitle: {
+    fontSize: 14,
+    marginTop: 4,
+    color: "#A9ABB1"
+  },
+
 });
 
-const CoinItem = () => {
-  const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
+const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, sparkline_in_7d , image  }) => {
+
+  const priceChangeColor = price_change_percentage_24h > 0 ? "#80BF3D"  : "#FE5050"
+  function truncate(string, length){
+    if (string.length > length)
+        return string.substring(0,length)+'...';
+    else
+        return string;
+};
   return (
-    <View style={styles.coinContainer}>
-      <Image source={{uri: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'}} 
-      style={{height:28, width:28, marginHorizontal: 10, alignSelf: "center"}} /> 
-      <View>
-        <Text style={styles.title}>Bitcoin</Text>
-        <View style={{flexDirection: "row"}}>
-          <Text style={styles.text}>BTC</Text>
+    <TouchableOpacity>
+      <View style={styles.itemWrapper}>
+        {/* LeftSide */}
+        <View style={styles.leftWrapper}>
+          <Image source={{ uri: image }} style={styles.image} />
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{truncate(name, 8)}</Text>
+            <Text style={styles.subtitle}>{symbol.toUpperCase()}</Text>
+          </View>
+        </View>
+        {/* <AreaChart
+            style={{ height: '100%', width: "100%" }}
+            data={sparkline_in_7d.price}
+            curve={shape.curveNatural}
+            // green: rgba(128, 190, 60, 0.8)
+            // red: rgba(254, 80, 80, 0.8)
+            svg={{ fill: 'rgba(128, 190, 60, 0.8)' }}
+          >
+          </AreaChart> */}
+        {/* rightSide */}
+        <View style={styles.rightWrapper}>
+          <Text style={styles.title}>${current_price.toLocaleString('en-Us', {currency: "USD"})}</Text>
+          <Text style={[styles.subtitle], { color: priceChangeColor }}>{price_change_percentage_24h.toFixed(2)}</Text>
         </View>
       </View>
-        <AreaChart
-                  style={{height:'100%', width: '40%', paddingLeft: 30}}
-                  data={data}
-                  curve={shape.curveNatural}
-                  // green: rgba(128, 190, 60, 0.8)
-                  // red: rgba(254, 80, 80, 0.8)
-                  svg={{ fill: 'rgba(128, 190, 60, 0.8)' }}
-              >
-        </AreaChart>
-      <View style={{marginLeft: 'auto'}}>
-          <Text style={styles.title}>36,000</Text>
-          <View style={styles.percentageChangeContainer}>
-            <AntDesign name="caretdown" size={12} color="black" style={{alignSelf:'center',paddingRight: 3}}/>
-            <Text style={styles.text}>0,63%</Text>
-          </View>
-      </View>
-     </View>
+    </TouchableOpacity>
   );
 };
 

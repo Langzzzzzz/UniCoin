@@ -4531,6 +4531,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-element@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-element/-/react-native-element-1.2.1.tgz#02165505422e2521a58e5c1d6845af67fcf3b04b"
+  integrity sha512-fbkzGRNyu2b5vAQEBIAKAmiYoy2RNzf2DqHEJI3W/R+cGMdatDkXFXeQISEMziNdmeMUi5YuURZcf48J+xCb/w==
+
 react-native-svg-charts@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg-charts/-/react-native-svg-charts-5.1.1.tgz#b397f42de016eebad5142d98311deaf82a00b853"
