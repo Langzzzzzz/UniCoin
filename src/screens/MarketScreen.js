@@ -6,7 +6,7 @@ import DATA from '../../assets/data/cryptoCurrency.json'
 
 const MarketScreen = () => {
   return (
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: 'white'}}>
       <Text style={{marginLeft: 8, fontSize: 36, }}>Welcome</Text>
         <ScrollView 
         style={{marginHorizontal: 8}}
