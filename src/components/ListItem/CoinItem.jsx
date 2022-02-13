@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 
 });
 
-const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, sparkline_in_7d , image  }) => {
+const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, sparkline_in_7d , image, onPress }) => {
 
   const priceChangeColor = price_change_percentage_24h > 0 ? "#80BF3D"  : "#FE5050"
   const chartColor = price_change_percentage_24h > 0 ? 'rgba(128, 190, 60, 0.8)'  : 'rgba(254, 80, 80, 0.8)'
@@ -59,7 +59,7 @@ const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, spa
         return string;
   };
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.itemWrapper}>
         {/* LeftSide */}
         <View style={styles.leftWrapper}>
