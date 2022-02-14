@@ -80,7 +80,7 @@ const MarketScreen = () => {
             name={selectedCoinData.name}
             current_price={selectedCoinData.current_price}
             price_change_percentage_24h={selectedCoinData.price_change_percentage_24h}
-            sparkline_in_7d={selectedCoinData.sparkline_in_7d.price}
+            sparkline_in_7d={selectedCoinData.sparkline_in_7d}
             image={selectedCoinData.image}
             />) : null
         }
