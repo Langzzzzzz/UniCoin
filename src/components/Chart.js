@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, ActivityIndicator } from 'react-native'
 import { ChartDot, ChartPath, ChartPathProvider, ChartYLabel} from '@rainbow-me/animated-charts';
+import { useSharedValue } from 'react-native-reanimated';
 
 const { width: SIZE } = Dimensions.get('window');
 
 const Chart = ({ symbol, name, current_price, price_change_percentage_24h, sparkline_in_7d, image }) => {
     console.log(current_price)
+    const [chartReady, setChartReady] = useState(false);
+
+    const latestCurrentPrice = useSharedValue(current_price);
+    useEffect(()=>{
+        latestCurrentPrice.value = current_price;
+
+        setTimeout(() => {
+            setChartReady(true)
+        }, 5);
+    }, [current_price]);
 
     const priceChangeColor = price_change_percentage_24h > 0 ? '#34C759' : '#FF3B30';
 
-      const formatUSD = value => {
+    const formatUSD = value => {
     'worklet';
     if (value === '') {
-      const formattedValue = `$${current_price.toLocaleString('en-US', { currency: 'USD' })}`
+      const formattedValue = `$${latestCurrentPrice.value.toLocaleString('en-US', { currency: 'USD' })}`
       return formattedValue;
     }
 
@@ -36,14 +47,15 @@ const Chart = ({ symbol, name, current_price, price_change_percentage_24h, spark
                         format={formatUSD}
                         style={styles.boldTitle}
                     />
-                        <Text style={styles.boldTitle}>${current_price.toLocaleString('en-Us', { currency: "USD" })}</Text>
+                        {/* <Text style={styles.boldTitle}>${current_price.toLocaleString('en-Us', { currency: "USD" })}</Text> */}
                         <Text style={[styles.title, { color: priceChangeColor }]}>{price_change_percentage_24h.toFixed(2)}%</Text>
                     </View>
                 </View>
-                <View style={styles.chartLineWrapper}>
+                { chartReady ? 
+                    (<View style={styles.chartLineWrapper}>
                     <ChartPath height={SIZE / 2} stroke="black" width={SIZE} />
                     <ChartDot style={{ backgroundColor: 'black' }} />
-                </View>
+                </View>) : null}
                 
             </View>
         </ChartPathProvider>

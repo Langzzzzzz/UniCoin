@@ -1,5 +1,5 @@
 import { ScrollView, FlatList, Text, SafeAreaView, View, StyleSheet } from 'react-native';
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import CoinItem from '../components/ListItem/CoinItem';
 import CardItem from '../components/ListItem/CardItem';
 import Chart from '../components/Chart'
@@ -8,6 +8,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
+import { getMarketData } from '../../services/cryptoService';
 
 const styles = StyleSheet.create ({
   bottomSheet:{
@@ -27,7 +28,16 @@ const styles = StyleSheet.create ({
 })
 const MarketScreen = () => {
 
+  const [data, setData] = useState();
   const [selectedCoinData, setSelectedCoinData] = useState(null);
+
+  useEffect(()=>{
+    const fetchMarketData = async () => {
+      const marketData = await getMarketData();
+      setData(marketData);
+    }
+    fetchMarketData();
+  }, [])
   // ref
   const bottomSheetModalRef = useRef(null);
 
@@ -54,7 +64,7 @@ const MarketScreen = () => {
 
         <FlatList
           keyExtractor={(item) => item.id}
-          data={DATA}
+          data={data}
           renderItem={({ item }) => (
             <CoinItem
               name={item.name}
