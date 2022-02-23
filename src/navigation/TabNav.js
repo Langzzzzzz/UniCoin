@@ -2,10 +2,11 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import MarketScreen from "../screens/MarketScreen"
-import NewsScreen from "../screens/NewsScreen"
-import PortofolioScreen from "../screens/PortofolioScreen"
-import SearchScreen from "../screens/SearchScreen"
 import SettingScreen from "../screens/SettingScreen"
+import {
+    PortofolioStackNavigator,
+    SearchStackNavigator,
+    NewsStackNavigator } from "./StackNav"
 import { AntDesign } from '@expo/vector-icons';
 
 
@@ -37,16 +38,17 @@ const TabNav = ({colorTheme}) => {
             />
             <Tab.Screen
                 name="Portofolio"
-                component={PortofolioScreen}
+                options={{headerShown:false}}
+                component={PortofolioStackNavigator}
             />
             <Tab.Screen
                 name="Search"
-                component={SearchScreen}
+                component={SearchStackNavigator}
                 options={{headerShown:false}}
             />
             <Tab.Screen
                 name="News"
-                component={NewsScreen}
+                component={NewsStackNavigator}
             />
             <Tab.Screen
                 name="Setting"

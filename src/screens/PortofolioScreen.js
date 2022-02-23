@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
 });
 
-const PortofolioScreen = () => {
+const PortofolioScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -52,16 +52,18 @@ const PortofolioScreen = () => {
         speed={1}
         loop={true}
       />
-      <Text>PortofolioScreen</Text>
+      <Text style={{fontSize: 18, fontWeight:'700', margin:14 }}>Start your Crypto Protofolio Now</Text>
+      <Text style={{fontSize: 14, fontWeight:'400', marginBottom: 8}}>🚀 Set up customize watchlist</Text>
+      <Text style={{fontSize: 14, fontWeight:'400', marginBottom: 4}}>🌕 Manage your crypto investments</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Alert.alert("Sign Up button clicked")} >
+          onPress={() => navigation.navigate('SignupDetail')} >
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.buttonOutline]}
-          onPress={() => Alert.alert("Log In button clicked")} >
+          onPress={() => navigation.navigate('LoginDetail')} >
           <Text style={styles.buttonOutlineText}>Log In</Text>
         </TouchableOpacity>
 
