@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { AreaChart } from 'react-native-svg-charts';
+import { AreaChart, LineChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape'
 import { AntDesign } from '@expo/vector-icons';
 
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: "row",
     alignItems: "center",
+    marginRight: 12
   },
   image: {
     height: 48,
@@ -24,8 +25,9 @@ const styles = StyleSheet.create({
   },
   middleWrapper: {
     flex:1,
-    height:"100%",
+    height:"70%",
     marginLeft: 30,
+    paddingLeft:8
   },
   rightWrapper: {
     flex:1,
@@ -46,12 +48,37 @@ const styles = StyleSheet.create({
 
 });
 
+const formatPriceData = (price, change ) => {
+  let formattedData = [];
+  let interval = Math.floor(price.length / 7)
+  let sum = 0;
+  for (let i=0; i<7; i++){
+    formattedData.push(price[i*interval].y)
+    sum+=price[i*interval].y
+  }
+  let temp;
+  if (change <=0 ){
+    temp = Math.max.apply(Math, formattedData) - 1;
+  } else {
+    temp = Math.min.apply(Math, formattedData) + 1;
+  }
+
+  for (let i=0; i<formattedData.length; i++){
+    formattedData[i] = formattedData[i] - temp;
+  }
+
+  
+  return formattedData;
+}
+
 const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, sparkline_in_7d , image, onPress }) => {
 
   const priceChangeColor = price_change_percentage_24h > 0 ? "#80BF3D"  : "#FE5050"
   const chartColor = price_change_percentage_24h > 0 ? 'rgba(128, 190, 60, 0.8)'  : 'rgba(254, 80, 80, 0.8)'
   const changeIcon = price_change_percentage_24h > 0 ? "caretup"  : "caretdown"
-  const price = [5, 10, 30, 40, 50, 120, 80]
+  
+  const formattedData = formatPriceData(sparkline_in_7d.price, price_change_percentage_24h);
+  //console.log(formattedData)
   function truncate(string, length){
     if (string.length > length)
         return string.substring(0,length)+'...';
@@ -70,15 +97,15 @@ const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, spa
           </View>
         </View>
         <View style={styles.middleWrapper}>
-          <AreaChart
+            <LineChart 
               style={{ height: '100%', width: "100%" }}
-              data={price}
+              data={formattedData}
               curve={shape.curveNatural}
-              // green: rgba(128, 190, 60, 0.8)
-              // red: rgba(254, 80, 80, 0.8)
-              svg={{ fill: chartColor }}
-            >
-            </AreaChart>
+              svg={{ stroke: chartColor, strokeWidth: 1.7}}
+              contentInset={{ top: 3, bottom: 3 }}
+              >
+
+            </LineChart>
         </View>
         
         {/* rightSide */}

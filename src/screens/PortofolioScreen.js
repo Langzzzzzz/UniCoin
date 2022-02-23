@@ -47,7 +47,7 @@ const PortofolioScreen = () => {
     >
       <LottieView
         style={{ height: 200 }}
-        source={require("../../assets/ login_image_white.json")}
+        source={require("../../assets/login_image_white.json")}
         autoPlay
         speed={1}
         loop={true}

@@ -42,6 +42,7 @@ const TabNav = ({colorTheme}) => {
             <Tab.Screen
                 name="Search"
                 component={SearchScreen}
+                options={{headerShown:false}}
             />
             <Tab.Screen
                 name="News"

@@ -1,14 +1,14 @@
-import { ScrollView, FlatList, Text, SafeAreaView, View, StyleSheet } from 'react-native';
+import { ScrollView, FlatList, Text, SafeAreaView, View, StyleSheet, StatusBar} from 'react-native';
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import CoinItem from '../components/ListItem/CoinItem';
 import CardItem from '../components/ListItem/CardItem';
 import Chart from '../components/Chart'
-import DATA from '../../assets/data/cryptoCurrency.json'
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import { getMarketData } from '../../services/cryptoService';
+import { getMarketData} from '../../services/cryptoService';
+import { cos } from 'react-native-reanimated';
 
 const styles = StyleSheet.create ({
   bottomSheet:{
@@ -27,8 +27,8 @@ const styles = StyleSheet.create ({
   }
 })
 const MarketScreen = () => {
-
-  const [data, setData] = useState();
+  const [refreshing, setRefreshing] = useState(false);
+  const [data, setData] = useState([]);
   const [selectedCoinData, setSelectedCoinData] = useState(null);
 
   useEffect(()=>{
@@ -38,33 +38,34 @@ const MarketScreen = () => {
     }
     fetchMarketData();
   }, [])
+
   // ref
   const bottomSheetModalRef = useRef(null);
-
   // variables
-  const snapPoints = useMemo(() => ['50%', '90%'], []);
+  const snapPoints = useMemo(() => ['50%'], []);
 
   const openModal = (item) => {
     setSelectedCoinData(item);
     bottomSheetModalRef.current?.present();
   }
+
+  const handleRefresh = async() => {
+    setRefreshing(true);
+    const marketData = await getMarketData();
+    setData(marketData);
+    setRefreshing(false);
+  }
+
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={{ backgroundColor: 'white' }}>
         <Text style={{ marginLeft: 8, fontSize: 36, }}>Welcome</Text>
-        <ScrollView
-          style={{ marginHorizontal: 8 }}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          <CardItem title="24h Volume" data="$1,931,180,572,622" />
-          <CardItem title="24h Volume" data="$1,931,180,572,622" />
-          <CardItem title="24h Volume" data="$1,931,180,572,622" />
-        </ScrollView>
 
         <FlatList
           keyExtractor={(item) => item.id}
           data={data}
+          onRefresh={handleRefresh}
+          refreshing={refreshing}
           renderItem={({ item }) => (
             <CoinItem
               name={item.name}
