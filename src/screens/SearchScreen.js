@@ -31,8 +31,8 @@ const SearchScreen = () => {
 
       <View style={{
         margin: 8,
-        borderRadius: 4,
-        borderWidth: 1,
+        borderRadius: 8,
+        borderWidth: 3,
         borderColor: '#f3f3f3',
         shadowOpacity: 0.25,
         shadowRadius: 20,

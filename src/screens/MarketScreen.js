@@ -8,7 +8,6 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import { getMarketData} from '../../services/cryptoService';
-import { cos } from 'react-native-reanimated';
 
 const styles = StyleSheet.create ({
   bottomSheet:{
@@ -59,7 +58,7 @@ const MarketScreen = () => {
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={{ backgroundColor: 'white' }}>
-        <Text style={{ marginLeft: 8, fontSize: 36, }}>Welcome</Text>
+        <Text style={{ marginLeft: 8, fontSize: 32, fontWeight:'800'}}>Welcome</Text>
 
         <FlatList
           keyExtractor={(item) => item.id}

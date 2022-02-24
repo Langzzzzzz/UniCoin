@@ -25,6 +25,7 @@ const PortofolioStackNavigator = () => {
 };
 
 const SearchStack = createStackNavigator();
+
 const SearchStackNavigator = () => {
   return (
     <SearchStack.Navigator >
@@ -35,6 +36,7 @@ const SearchStackNavigator = () => {
 };
 
 const NewsStack = createStackNavigator();
+
 const NewsStackNavigator = () => {
     return (
       <NewsStack.Navigator >
@@ -42,6 +44,6 @@ const NewsStackNavigator = () => {
         <NewsStack.Screen name="NewsDetail" component={NewsDetailScreen} />
       </NewsStack.Navigator>
     );
-  };
+};
 
 export { PortofolioStackNavigator, SearchStackNavigator, NewsStackNavigator };

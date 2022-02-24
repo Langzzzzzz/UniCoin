@@ -3,7 +3,7 @@ import React from 'react'
 
 const SignupDetailScreen = () => {
   return (
-    <View>
+    <View style={{backgroundColor:'#fff', flex:1}}>
       <Text>SignupDetailScreen</Text>
     </View>
   )
