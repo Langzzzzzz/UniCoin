@@ -49,7 +49,7 @@ const NewsStackNavigator = () => {
     return (
         <NewsStack.Navigator >
             <NewsStack.Screen name="NewsStack" component={NewsScreen}  options={{ headerShown: false }} />
-            <NewsStack.Screen name="NewsDetail" component={NewsDetailScreen} />
+            <NewsStack.Screen name="NewsDetail" component={NewsDetailScreen} options={{ headerShown: false }}  />
         </NewsStack.Navigator>
     );
 };
@@ -99,7 +99,12 @@ const TabNav = ({ colorTheme }) => {
             <Tab.Screen
                 name="News"
                 component={NewsStackNavigator}
-                options={{ headerShown: false }} 
+                options={({ route }) => ({
+                    tabBarStyle: {
+                        display: getTabBarVisibility(route),
+                    },
+                    headerShown: false,
+                })}
             />
             <Tab.Screen
                 name="Setting"
@@ -115,6 +120,9 @@ const getTabBarVisibility = route => {
         return 'none';
     }
     if (routeName == 'SignupDetail') {
+        return 'none';
+    }
+    if (routeName == 'NewsDetail') {
         return 'none';
     }
     return 'flex';

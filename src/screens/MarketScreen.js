@@ -1,4 +1,4 @@
-import { ScrollView, FlatList, Text, SafeAreaView, View, StyleSheet, StatusBar} from 'react-native';
+import { ScrollView, FlatList, Text, SafeAreaView, View, StyleSheet, StatusBar } from 'react-native';
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import CoinItem from '../components/ListItem/CoinItem';
 import CardItem from '../components/ListItem/CardItem';
@@ -7,12 +7,12 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import { getMarketData} from '../../services/cryptoService';
+import { getMarketData } from '../../services/cryptoService';
 
-const styles = StyleSheet.create ({
-  bottomSheet:{
+const styles = StyleSheet.create({
+  bottomSheet: {
     shadowColor: '#000',
-    shadowOffset:{
+    shadowOffset: {
       width: 0,
       height: -4
     },
@@ -30,7 +30,7 @@ const MarketScreen = () => {
   const [data, setData] = useState([]);
   const [selectedCoinData, setSelectedCoinData] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchMarketData = async () => {
       const marketData = await getMarketData();
       setData(marketData);
@@ -48,7 +48,7 @@ const MarketScreen = () => {
     bottomSheetModalRef.current?.present();
   }
 
-  const handleRefresh = async() => {
+  const handleRefresh = async () => {
     setRefreshing(true);
     const marketData = await getMarketData();
     setData(marketData);
@@ -58,25 +58,27 @@ const MarketScreen = () => {
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={{ backgroundColor: 'white' }}>
-        <Text style={{ marginLeft: 8, fontSize: 32, fontWeight:'800'}}>Welcome</Text>
+        <Text style={{ marginLeft: 8, fontSize: 32, fontWeight: '800' }}>Welcome</Text>
+        <View style={{marginBottom: 80}}>
+          <FlatList
+            keyExtractor={(item) => item.id}
+            data={data}
+            onRefresh={handleRefresh}
+            refreshing={refreshing}
+            renderItem={({ item }) => (
+              <CoinItem
+                name={item.name}
+                symbol={item.symbol}
+                current_price={item.current_price}
+                price_change_percentage_24h={item.price_change_percentage_24h}
+                sparkline_in_7d={item.sparkline_in_7d}
+                image={item.image}
+                onPress={() => openModal(item)}
+              />
+            )}
+          />
+        </View>
 
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={data}
-          onRefresh={handleRefresh}
-          refreshing={refreshing}
-          renderItem={({ item }) => (
-            <CoinItem
-              name={item.name}
-              symbol={item.symbol}
-              current_price={item.current_price}
-              price_change_percentage_24h={item.price_change_percentage_24h}
-              sparkline_in_7d={item.sparkline_in_7d}
-              image={item.image}
-              onPress={() => openModal(item)}
-            />
-          )}
-        />
       </SafeAreaView>
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -85,16 +87,16 @@ const MarketScreen = () => {
         style={styles.bottomSheet}
       >
         {
-          selectedCoinData ? (<Chart 
+          selectedCoinData ? (<Chart
             symbol={selectedCoinData.symbol}
             name={selectedCoinData.name}
             current_price={selectedCoinData.current_price}
             price_change_percentage_24h={selectedCoinData.price_change_percentage_24h}
             sparkline_in_7d={selectedCoinData.sparkline_in_7d}
             image={selectedCoinData.image}
-            />) : null
+          />) : null
         }
-        
+
       </BottomSheetModal>
     </BottomSheetModalProvider>
 

@@ -57,12 +57,13 @@ const NewsScreen = () => {
         data={newsData}
         renderItem={({ item }) => (
           <NewsCard
-            author={item}
+            author={item.author}
             content={item.content}
             source={item.source}
             title={item.title}
             image={item.urlToImage}
             publishedAt={item.publishedAt}
+            description={item.description}
           />
         )}
       />

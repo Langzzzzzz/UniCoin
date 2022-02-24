@@ -3,7 +3,7 @@ import React from 'react'
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 
-const NewsCard = ({ author, content, source, title, image, publishedAt }) => {
+const NewsCard = ({ author, content, source, title, image, publishedAt, description }) => {
   const navigation = useNavigation();
   console.log(typeof author)
 
@@ -14,7 +14,8 @@ const NewsCard = ({ author, content, source, title, image, publishedAt }) => {
         image: image,
         content: content,
         publishedAt: publishedAt,
-        source: source
+        source: source,
+        description: description
       })
     }
       }>
