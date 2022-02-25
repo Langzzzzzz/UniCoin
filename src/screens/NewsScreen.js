@@ -64,6 +64,7 @@ const NewsScreen = () => {
             image={item.urlToImage}
             publishedAt={item.publishedAt}
             description={item.description}
+            url={item.url}
           />
         )}
       />

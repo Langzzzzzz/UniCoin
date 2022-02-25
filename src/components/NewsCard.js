@@ -1,24 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
 
-const NewsCard = ({ author, content, source, title, image, publishedAt, description }) => {
+const NewsCard = ({ author, content, source, title, image, publishedAt, description, url }) => {
   const navigation = useNavigation();
+  const [result, setResult] = useState(null);
   console.log(typeof author)
+  
+  const handleOnPress = async () => {
+    let result = await WebBrowser.openBrowserAsync(url);
+    setResult(result);
+  };
 
   return (
-    <TouchableOpacity onPress={() => {
-      navigation.navigate('NewsDetail', {
-        title: title,
-        image: image,
-        content: content,
-        publishedAt: publishedAt,
-        source: source,
-        description: description
-      })
-    }
-      }>
+    <TouchableOpacity onPress={() => handleOnPress()}>
       <Card containerStyle={{borderRadius: 10}} >
         <Card.Image
           style={{ marginBottom: 4 }}
