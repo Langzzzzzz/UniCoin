@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Card } from 'react-native-elements/dist/card/Card'
 import { Divider } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     itemWrapper: {
@@ -46,8 +47,13 @@ const styles = StyleSheet.create({
 });
 
 const TrendCoinCard = ({ name, symbol, small, rank }) => {
+    const navigation = useNavigation();
     return (
-        <TouchableOpacity style={{ marginHorizontal: 18 }}>
+        <TouchableOpacity style={{ marginHorizontal: 18 }} 
+        onPress={()=> {navigation.navigate('SearchDetail',{
+            searchPhrase:name
+          })}}
+          >
             <View style={styles.itemWrapper}>
                 {/* LeftSide */}
                 <View style={styles.leftWrapper}>
