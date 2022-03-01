@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const SearchDetailScreen = () => {
+const SearchDetailScreen = ({route}) => {
+  const {searchPhrase} = route.params;
   return (
     <View>
       <Text>SearchDetailScreen</Text>
+      <Text>{searchPhrase}</Text>
     </View>
   )
 }

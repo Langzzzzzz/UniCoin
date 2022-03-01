@@ -16,6 +16,7 @@ import SignupDetailScreen from "../screens/detail_screens/SignupDetailScreen"
 import NewsDetailScreen from "../screens/detail_screens/NewsDetailScreen"
 import SearchDetailScreen from "../screens/detail_screens/SearchDetailScreen"
 import PortofolioDetailScreen from "../screens/detail_screens/PortofolioDetailScreen"
+import CoinDetailScreen from "../screens/detail_screens/CoinDetailScreen"
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -28,6 +29,7 @@ const PortofolioStackNavigator = () => {
             <ProtofolioStack.Screen name="LoginDetail" component={LoginDetailScreen} />
             <ProtofolioStack.Screen name="SignupDetail" component={SignupDetailScreen} />
             <ProtofolioStack.Screen name="PortofolioDetail" component={PortofolioDetailScreen} options={{ headerShown: false }} />
+            <ProtofolioStack.Screen name="CoinDetail" component={CoinDetailScreen} options={{ headerShown: false }} />
         </ProtofolioStack.Navigator>
     );
 };

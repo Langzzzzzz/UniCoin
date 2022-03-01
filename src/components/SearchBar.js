@@ -1,42 +1,17 @@
-// import { StyleSheet, Text, TextInput, View } from 'react-native'
-// import React from 'react'
-
-// const SearchBar = () => {
-//   return (
-//     <View style={styles.container}>
-//       <TextInput style={styles.searchInput} placeholder='Search Coin Here' />
-//     </View>
-//   )
-// }
-
-// export default SearchBar
-
-// const styles = StyleSheet.create({
-//     container:{
-//         width: '100%',
-//         height: 50,
-//         backgroundColor: 'white',
-//         borderRadius: 8
-//     },
-//     searchInput: {
-//         width: '100%',
-//         height: '100%',
-//         paddingLeft: 8,
-//         fontSize: 16
-//     }
-// })
-
-//TODO
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TextInput, View, Keyboard, Button } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
-const SearchBar = (props) => {
+const SearchBar = () => {
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [clicked, setClicked] = useState(false);
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View
         style={
-          !props.clicked
+          !clicked
             ? styles.searchBar__unclicked
             : styles.searchBar__clicked
         }
@@ -52,27 +27,33 @@ const SearchBar = (props) => {
         <TextInput
           style={styles.input}
           placeholder="Search"
-          value={props.searchPhrase}
-          onChangeText={props.setSearchPhrase}
+          value={searchPhrase}
+          onChangeText={setSearchPhrase}
           onFocus={() => {
-            props.setClicked(true);
+            setClicked(true);
           }}
         />
         {/* cross Icon, depending on whether the search bar is clicked or not */}
-        {props.clicked && (
+        {clicked && (
           <Entypo name="cross" size={20} color="black" style={{ padding: 1 }} onPress={() => {
-              props.setSearchPhrase("")
+              setSearchPhrase("")
           }}/>
         )}
       </View>
       {/* cancel button, depending on whether the search bar is clicked or not */}
-      {props.clicked && (
+      {clicked && (
         <View>
           <Button
-            title="Cancel"
+            title="Search"
+            disabled={searchPhrase=== "" ? true : false }
             onPress={() => {
               Keyboard.dismiss();
-              props.setClicked(false);
+              setClicked(false);
+              console.log(searchPhrase)
+              navigation.navigate('SearchDetail',{
+                searchPhrase:searchPhrase
+              });
+              setSearchPhrase("")
             }}
           ></Button>
         </View>

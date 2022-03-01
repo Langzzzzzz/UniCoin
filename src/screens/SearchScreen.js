@@ -20,7 +20,8 @@ const SearchScreen = () => {
     <SafeAreaView style={{
       backgroundColor: 'white', flex: 1
     }}>
-      <SearchBar />
+      <SearchBar
+      />
 
       <View style={{ marginTop: 36}}>
         <Text style={{
