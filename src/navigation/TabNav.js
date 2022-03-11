@@ -40,7 +40,7 @@ const SearchStackNavigator = () => {
     return (
         <SearchStack.Navigator >
             <SearchStack.Screen name="SearchStack" component={SearchScreen} options={{ headerShown: false }}/>
-            <SearchStack.Screen name="SearchDetail" component={SearchDetailScreen} />
+            <SearchStack.Screen name="SearchDetail" component={SearchDetailScreen} options={{ headerShown: false }} />
         </SearchStack.Navigator>
     );
 };
@@ -96,7 +96,12 @@ const TabNav = ({ colorTheme }) => {
             <Tab.Screen
                 name="Search"
                 component={SearchStackNavigator}
-                options={{ headerShown: false }}
+                options={({ route }) => ({
+                    tabBarStyle: {
+                        display: getTabBarVisibility(route),
+                    },
+                    headerShown: false,
+                })}
             />
             <Tab.Screen
                 name="News"
@@ -120,11 +125,11 @@ const getTabBarVisibility = route => {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
     if (routeName == 'LoginDetail') {
         return 'none';
-    }
-    if (routeName == 'SignupDetail') {
+    } else if (routeName == 'SignupDetail') {
         return 'none';
-    }
-    if (routeName == 'NewsDetail') {
+    } else if (routeName == 'NewsDetail') {
+        return 'none';
+    } else if (routeName == 'SearchDetail') {
         return 'none';
     }
     return 'flex';

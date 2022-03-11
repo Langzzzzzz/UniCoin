@@ -45,6 +45,7 @@ const SearchScreen = () => {
           scrollEnabled={false}
           renderItem={({ item }) => (
             <TrendCoinCard
+              id={item.id}
               name={item.name}
               symbol={item.symbol}
               small={item.small}

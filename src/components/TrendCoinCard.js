@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
 
 });
 
-const TrendCoinCard = ({ name, symbol, small, rank }) => {
+const TrendCoinCard = ({ id, name, symbol, small, rank }) => {
     const navigation = useNavigation();
     return (
         <TouchableOpacity style={{ marginHorizontal: 18 }} 
         onPress={()=> {navigation.navigate('SearchDetail',{
-            searchPhrase:name
+            searchPhrase:id
           })}}
           >
             <View style={styles.itemWrapper}>

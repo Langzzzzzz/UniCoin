@@ -84,3 +84,43 @@ export async function getNews(category = 'business') {
     let result = await articles.json();
     return result.articles;
 }
+
+const formatCoinData = (data) => {
+    const coinData = {
+        id: data.id,
+        name: data.name,
+        symbol: data.symbol,
+        rank: data.market_cap_rank,
+        image: data.image.small,
+        description: data.description.en,
+        links: data.links,
+        currentPrice: data.market_data.current_price.cad,
+        ath: data.market_data.ath.cad,
+        athChangePercentage: data.market_data.ath_change_percentage.cad,
+        athDate: data.market_data.ath_date.cad,
+        atl: data.market_data.atl.cad,
+        atlChangePercentage: data.market_data.atl_change_percentage.cad,
+        atlDate: data.market_data.atl_date.cad,
+        marketCap: data.market_data.market_cap.cad,
+        fullyDilutedValuation: data.market_data.fully_diluted_valuation.cad,
+        priceChangePercentage24h: data.market_data.price_change_percentage_24h,
+        priceChangePercentage7d: data.market_data.price_change_percentage_7d,
+        priceChangePercentage14d: data.market_data.price_change_percentage_14d,
+        priceChangePercentage30d: data.market_data.price_change_percentage_30d,
+        priceChangePercentage1y: data.market_data.price_change_percentage_1y,
+        max_supply: data.market_data.max_supply,
+    }
+    return coinData
+}
+
+
+export const getSearchCoinData = async(coin) => {
+    try {
+        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}`);
+        const unformatedCoinData = response.data;
+        const formatedCoinData = formatCoinData(unformatedCoinData);
+        return formatedCoinData;
+    } catch (error) {
+        console.log(error.message)
+    }
+}
