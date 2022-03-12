@@ -16,6 +16,7 @@ import {
 } from "@rainbow-me/animated-charts";
 import { useSharedValue } from 'react-native-reanimated';
 import CustomSwitch from '../../components/CustomSwitch'
+import NotFound from '../../components/NotFound'
 
 const filterDaysArray = [
   { filterDay: "1", filterText: "24h" },
@@ -31,32 +32,34 @@ const SearchDetailScreen = ({ navigation, route }) => {
   const [selectedRange, setSelectedRange] = useState("1")
   const [coinMarketData, setCoinMarketData] = useState(null);
   const [dataTab, setDataTab] = useState(1);
+  const [notFound, setNotFound] = useState(false);
 
-  const { id,
-    name,
-    symbol,
-    rank,
-    image,
-    description,
-    links,
-    currentPrice,
-    ath,
-    athChangePercentage,
-    athDate,
-    atl,
-    atlChangePercentage,
-    atlDate,
-    marketCap,
-    fullyDilutedValuation,
-    priceChangePercentage24h,
-    priceChangePercentage7d,
-    priceChangePercentage14d,
-    priceChangePercentage30d,
-    priceChangePercentage1y,
-    max_supply } = coinData
 
-  const priceChangeColor = coinData.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
-  const changeIcon = coinData.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
+  // const { id,
+  //   name,
+  //   symbol,
+  //   rank,
+  //   image,
+  //   description,
+  //   links,
+  //   currentPrice,
+  //   ath,
+  //   athChangePercentage,
+  //   athDate,
+  //   atl,
+  //   atlChangePercentage,
+  //   atlDate,
+  //   marketCap,
+  //   fullyDilutedValuation,
+  //   priceChangePercentage24h,
+  //   priceChangePercentage7d,
+  //   priceChangePercentage14d,
+  //   priceChangePercentage30d,
+  //   priceChangePercentage1y,
+  //   max_supply } = coinData
+
+  const priceChangeColor = coinData?.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
+  const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
 
 
   const fetchCoinData = async () => {
@@ -71,18 +74,18 @@ const SearchDetailScreen = ({ navigation, route }) => {
     );
     setCoinMarketData(fetchedCoinMarketData);
   };
-  const latestCurrentPrice = useSharedValue(currentPrice);
+  const latestCurrentPrice = useSharedValue(coinData?.currentPrice);
   useEffect(() => {
     fetchCoinData();
     fetchMarketCoinData(1);
   }, [])
 
   useEffect(() => {
-    latestCurrentPrice.value = currentPrice;
-  }, [currentPrice]);
+    latestCurrentPrice.value = coinData?.currentPrice;
+  }, [coinData?.currentPrice]);
 
   // const prices= coinMarketData?.prices;
-  const chartColor = currentPrice ? "#16c784" : "#ea3943";
+  const chartColor = coinData?.currentPrice ? "#16c784" : "#ea3943";
   const screenWidth = Dimensions.get("window").width;
 
 
@@ -108,7 +111,8 @@ const SearchDetailScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
-      <ChartPathProvider
+      { coinData ?
+        <ChartPathProvider
         data={{
           points: coinMarketData?.prices.map(([x, y]) => ({ x, y })),
           smoothingStrategy: "bezier",
@@ -124,7 +128,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
             <View style={styles.titleContainer}>
               <Image source={{ uri: coinData?.image }} style={styles.image} />
               <Text style={styles.title}>{coinData?.name} </Text>
-              <Text style={{ color: "#808080", fontSize: 16, fontWeight: "600" }}>({symbol?.toUpperCase()})         </Text>
+              <Text style={{ color: "#808080", fontSize: 16, fontWeight: "600" }}>({coinData.symbol?.toUpperCase()})         </Text>
             </View>
           </View>
         </View>
@@ -133,7 +137,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
         <View style={styles.currentPriceWrapper}>
               <ChartYLabel format={formatUSD} style={styles.price} />
               <AntDesign name={changeIcon} size={16} color={priceChangeColor} style={{ alignSelf: "center", paddingHorizontal: 4 }} />
-              <Text style={{ color: priceChangeColor, alignSelf: 'center', fontSize: 16 }}>{priceChangePercentage24h?.toFixed(2)}%</Text>
+              <Text style={{ color: priceChangeColor, alignSelf: 'center', fontSize: 16 }}>{coinData?.priceChangePercentage24h?.toFixed(2)}%</Text>
             </View>
 
             {/* chart */}
@@ -166,33 +170,32 @@ const SearchDetailScreen = ({ navigation, route }) => {
           <ScrollView>
             {/* past change percentage */}
             <PastPercentageChangeCard
-              priceChangePercentage24h={priceChangePercentage24h}
-              priceChangePercentage7d={priceChangePercentage7d}
-              priceChangePercentage14d={priceChangePercentage14d}
-              priceChangePercentage30d={priceChangePercentage30d}
-              priceChangePercentage1y={priceChangePercentage1y} />
+              priceChangePercentage24h={coinData.priceChangePercentage24h}
+              priceChangePercentage7d={coinData.priceChangePercentage7d}
+              priceChangePercentage14d={coinData.priceChangePercentage14d}
+              priceChangePercentage30d={coinData.priceChangePercentage30d}
+              priceChangePercentage1y={coinData.priceChangePercentage1y} />
 
             {/* information card */}
             <PriceInformationCard
-              rank={rank}
-              ath={ath}
-              athChangePercentage={athChangePercentage}
-              athDate={athDate}
-              atl={atl}
-              atlChangePercentage={atlChangePercentage}
-              atlDate={atlDate}
-              marketCap={marketCap}
-              fullyDilutedValuation={fullyDilutedValuation}
-              max_supply={max_supply}
+              rank={coinData.rank}
+              ath={coinData.ath}
+              athChangePercentage={coinData.athChangePercentage}
+              athDate={coinData.athDate}
+              atl={coinData.atl}
+              atlChangePercentage={coinData.atlChangePercentage}
+              atlDate={coinData.atlDate}
+              marketCap={coinData.marketCap}
+              fullyDilutedValuation={coinData.fullyDilutedValuation}
+              max_supply={coinData.max_supply}
             /> 
           </ScrollView>}
           {
           dataTab == 2 &&
-            <CoinInformationCard links ={links} description={description} />
+            <CoinInformationCard links ={coinData.links} description={coinData.description} />
           }
-      </ChartPathProvider>
-
-
+      </ChartPathProvider> : <NotFound navigation={navigation}/>
+      }
     </SafeAreaView>
   )
 }

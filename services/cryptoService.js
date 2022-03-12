@@ -132,5 +132,6 @@ export const getCoinMarketChart = async (coinId, selectedRange) => {
     } catch (e) {
       console.log(e)
     }
+    return "404"
   }
   
