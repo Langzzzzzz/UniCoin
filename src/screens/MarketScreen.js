@@ -67,6 +67,7 @@ const MarketScreen = () => {
             refreshing={refreshing}
             renderItem={({ item }) => (
               <CoinItem
+                id={item.id}
                 name={item.name}
                 symbol={item.symbol}
                 current_price={item.current_price}

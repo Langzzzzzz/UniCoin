@@ -56,6 +56,16 @@ const NewsStackNavigator = () => {
     );
 };
 
+const MarketStack = createStackNavigator();
+
+const MarketStackNavigator = () => {
+    return (
+        <MarketStack.Navigator >
+            <MarketStack.Screen name="MarketStack" component={MarketScreen}  options={{ headerShown: false }} />
+            <MarketStack.Screen name="MarketDetail" component={SearchDetailScreen} options={{ headerShown: false }}  />
+        </MarketStack.Navigator>
+    );
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -81,8 +91,13 @@ const TabNav = ({ colorTheme }) => {
             })}>
             <Tab.Screen
                 name="Market"
-                component={MarketScreen}
-                options={{ headerShown: false }}
+                component={MarketStackNavigator}
+                options={({ route }) => ({
+                    tabBarStyle: {
+                        display: getTabBarVisibility(route),
+                    },
+                    headerShown: false,
+                })}
             />
             <Tab.Screen
                 name="Portofolio"

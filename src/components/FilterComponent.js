@@ -4,7 +4,6 @@ import React, {memo} from 'react'
 const FilterComponent = (props) => {
     const { filterDay, filterText, selectedRange, setSelectedRange } = props;
     const isFilterSelected = (filter) => filter === selectedRange;
-    console.log("pressed")
     return (
         <Pressable 
             style={{ 

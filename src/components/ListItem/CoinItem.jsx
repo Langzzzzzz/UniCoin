@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { AreaChart, LineChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape'
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   itemWrapper: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   leftWrapper: {
-    flex:1,
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     marginRight: 12
@@ -24,13 +25,13 @@ const styles = StyleSheet.create({
     width: 48,
   },
   middleWrapper: {
-    flex:1,
-    height:"70%",
+    flex: 1,
+    height: "70%",
     marginLeft: 30,
-    paddingLeft:8
+    paddingLeft: 8
   },
   rightWrapper: {
-    flex:1,
+    flex: 1,
     alignItems: "flex-end"
   },
   titleWrapper: {
@@ -48,45 +49,53 @@ const styles = StyleSheet.create({
 
 });
 
-const formatPriceData = (price, change ) => {
+const formatPriceData = (price, change) => {
   let formattedData = [];
   let interval = Math.floor(price.length / 7)
   let sum = 0;
-  for (let i=0; i<7; i++){
-    formattedData.push(price[i*interval].y)
-    sum+=price[i*interval].y
+  for (let i = 0; i < 7; i++) {
+    formattedData.push(price[i * interval].y)
+    sum += price[i * interval].y
   }
   let temp;
-  if (change <=0 ){
+  if (change <= 0) {
     temp = Math.max.apply(Math, formattedData) - 1;
   } else {
     temp = Math.min.apply(Math, formattedData) + 1;
   }
 
-  for (let i=0; i<formattedData.length; i++){
+  for (let i = 0; i < formattedData.length; i++) {
     formattedData[i] = formattedData[i] - temp;
   }
 
-  
+
   return formattedData;
 }
 
-const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, sparkline_in_7d , image, onPress }) => {
+const CoinItem = ({ id, name, symbol, current_price, price_change_percentage_24h, sparkline_in_7d, image, onPress }) => {
+  const navigation = useNavigation();
 
-  const priceChangeColor = price_change_percentage_24h > 0 ? "#80BF3D"  : "#FE5050"
-  const chartColor = price_change_percentage_24h > 0 ? 'rgba(128, 190, 60, 0.8)'  : 'rgba(254, 80, 80, 0.8)'
-  const changeIcon = price_change_percentage_24h > 0 ? "caretup"  : "caretdown"
-  
+  const priceChangeColor = price_change_percentage_24h > 0 ? "#80BF3D" : "#FE5050"
+  const chartColor = price_change_percentage_24h > 0 ? 'rgba(128, 190, 60, 0.8)' : 'rgba(254, 80, 80, 0.8)'
+  const changeIcon = price_change_percentage_24h > 0 ? "caretup" : "caretdown"
+
   const formattedData = formatPriceData(sparkline_in_7d.price, price_change_percentage_24h);
   //console.log(formattedData)
-  function truncate(string, length){
+  function truncate(string, length) {
     if (string.length > length)
-        return string.substring(0,length)+'...';
+      return string.substring(0, length) + '...';
     else
-        return string;
+      return string;
   };
+  function onLongPress() {
+    console.log(id)
+    navigation.navigate('MarketDetail',{
+      searchPhrase:id
+    });
+  }
+  
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
       <View style={styles.itemWrapper}>
         {/* LeftSide */}
         <View style={styles.leftWrapper}>
@@ -97,22 +106,22 @@ const CoinItem = ({name, symbol, current_price, price_change_percentage_24h, spa
           </View>
         </View>
         <View style={styles.middleWrapper}>
-            <LineChart 
-              style={{ height: '100%', width: "100%" }}
-              data={formattedData}
-              curve={shape.curveNatural}
-              svg={{ stroke: chartColor, strokeWidth: 1.7}}
-              contentInset={{ top: 3, bottom: 3 }}
-              >
+          <LineChart
+            style={{ height: '100%', width: "100%" }}
+            data={formattedData}
+            curve={shape.curveNatural}
+            svg={{ stroke: chartColor, strokeWidth: 1.7 }}
+            contentInset={{ top: 3, bottom: 3 }}
+          >
 
-            </LineChart>
+          </LineChart>
         </View>
-        
+
         {/* rightSide */}
         <View style={styles.rightWrapper}>
-          <Text style={styles.title}>${current_price.toLocaleString('en-Us', {currency: "USD"})}</Text>
-          <View style={{flexDirection:"row"}}>
-            <AntDesign name={changeIcon} size={12} color={priceChangeColor} style={{alignSelf: "center", paddingHorizontal:4}}/>
+          <Text style={styles.title}>${current_price.toLocaleString('en-Us', { currency: "USD" })}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <AntDesign name={changeIcon} size={12} color={priceChangeColor} style={{ alignSelf: "center", paddingHorizontal: 4 }} />
             <Text style={[styles.subtitle], { color: priceChangeColor }}>{price_change_percentage_24h.toFixed(2)}%</Text>
           </View>
         </View>
