@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { getSearchCoinData, getCoinMarketChart } from '../../../services/cryptoService'
@@ -6,6 +6,7 @@ import { Divider } from 'react-native-elements'
 import { AntDesign } from '@expo/vector-icons';
 import PastPercentageChangeCard from '../../components/PastPercentageChangeCard';
 import FilterComponent from '../../components/FilterComponent';
+import PriceInformationCard from '../../components/PriceInformationCard';
 import CoinInformationCard from '../../components/CoinInformationCard';
 import {
   ChartDot,
@@ -14,6 +15,7 @@ import {
   ChartYLabel,
 } from "@rainbow-me/animated-charts";
 import { useSharedValue } from 'react-native-reanimated';
+import CustomSwitch from '../../components/CustomSwitch'
 
 const filterDaysArray = [
   { filterDay: "1", filterText: "24h" },
@@ -28,6 +30,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
   const [coinData, setCoinData] = useState("");
   const [selectedRange, setSelectedRange] = useState("1")
   const [coinMarketData, setCoinMarketData] = useState(null);
+  const [dataTab, setDataTab] = useState(1);
 
   const { id,
     name,
@@ -99,6 +102,10 @@ const SearchDetailScreen = ({ navigation, route }) => {
     return formattedValue;
   };
 
+  const onSelectSwitch = (value) => {
+    setDataTab(value)
+  }
+
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
       <ChartPathProvider
@@ -124,56 +131,65 @@ const SearchDetailScreen = ({ navigation, route }) => {
 
         <Divider width={0.5} style={{ marginTop: 8, marginHorizontal: 6 }} />
         <View style={styles.currentPriceWrapper}>
-          <ChartYLabel format={formatUSD} style={styles.price} />
-          <AntDesign name={changeIcon} size={16} color={priceChangeColor} style={{ alignSelf: "center", paddingHorizontal: 4 }} />
-          <Text style={{ color: priceChangeColor, alignSelf: 'center', fontSize: 16 }}>{priceChangePercentage24h?.toFixed(2)}%</Text>
-        </View>
+              <ChartYLabel format={formatUSD} style={styles.price} />
+              <AntDesign name={changeIcon} size={16} color={priceChangeColor} style={{ alignSelf: "center", paddingHorizontal: 4 }} />
+              <Text style={{ color: priceChangeColor, alignSelf: 'center', fontSize: 16 }}>{priceChangePercentage24h?.toFixed(2)}%</Text>
+            </View>
 
-        {/* chart */}
+            {/* chart */}
+            <View>
+              <ChartPath
+                strokeWidth={2}
+                height={screenWidth / 2}
+                stroke={chartColor}
+                width={screenWidth}
+              />
+              <ChartDot style={{ backgroundColor: chartColor }} />
+            </View>
+            {/* chart time frame */}
+            <View style={styles.chartTimeFrameContainer}>
+              {filterDaysArray.map((day) => (
+                <FilterComponent
+                  filterDay={day.filterDay}
+                  filterText={day.filterText}
+                  selectedRange={selectedRange}
+                  setSelectedRange={onSelectedRangeChange}
+                  key={day.filterText}
+                />
+              ))}
+            </View>
         <View>
-          <ChartPath
-            strokeWidth={2}
-            height={screenWidth / 2}
-            stroke={chartColor}
-            width={screenWidth}
-          />
-          <ChartDot style={{ backgroundColor: chartColor }} />
+          <CustomSwitch selectionMode={1} option1="Price Data" option2="Coin Information" onSelectSwitch={onSelectSwitch} />
         </View>
-        {/* chart time frame */}
-        <View style={styles.chartTimeFrameContainer}>
-          {filterDaysArray.map((day) => (
-            <FilterComponent
-              filterDay={day.filterDay}
-              filterText={day.filterText}
-              selectedRange={selectedRange}
-              setSelectedRange={onSelectedRangeChange}
-              key={day.filterText}
-            />
-          ))}
-        </View>
-        {/* past change percentage */}
-        <PastPercentageChangeCard
-          priceChangePercentage24h={priceChangePercentage24h}
-          priceChangePercentage7d={priceChangePercentage7d}
-          priceChangePercentage14d={priceChangePercentage14d}
-          priceChangePercentage30d={priceChangePercentage30d}
-          priceChangePercentage1y={priceChangePercentage1y} />
+        {
+          dataTab == 1 &&
+          <ScrollView>
+            {/* past change percentage */}
+            <PastPercentageChangeCard
+              priceChangePercentage24h={priceChangePercentage24h}
+              priceChangePercentage7d={priceChangePercentage7d}
+              priceChangePercentage14d={priceChangePercentage14d}
+              priceChangePercentage30d={priceChangePercentage30d}
+              priceChangePercentage1y={priceChangePercentage1y} />
 
-        {/* information card */}
-        <CoinInformationCard
-          rank={rank}
-          description={description}
-          links={links}
-          ath={ath}
-          athChangePercentage={athChangePercentage}
-          athDate={athDate}
-          atl={atl}
-          atlChangePercentage={atlChangePercentage}
-          atlDate={atlDate}
-          marketCap={marketCap}
-          fullyDilutedValuation={fullyDilutedValuation}
-          max_supply={max_supply}
-        />
+            {/* information card */}
+            <PriceInformationCard
+              rank={rank}
+              ath={ath}
+              athChangePercentage={athChangePercentage}
+              athDate={athDate}
+              atl={atl}
+              atlChangePercentage={atlChangePercentage}
+              atlDate={atlDate}
+              marketCap={marketCap}
+              fullyDilutedValuation={fullyDilutedValuation}
+              max_supply={max_supply}
+            /> 
+          </ScrollView>}
+          {
+          dataTab == 2 &&
+            <CoinInformationCard links ={links} description={description} />
+          }
       </ChartPathProvider>
 
 
