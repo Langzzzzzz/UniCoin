@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
+import moment from 'moment';
 
 const NewsCard = ({ author, content, source, title, image, publishedAt, description, url }) => {
   const navigation = useNavigation();
