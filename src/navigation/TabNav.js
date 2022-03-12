@@ -72,9 +72,10 @@ const TabNav = ({ colorTheme }) => {
                         return <AntDesign name="search1" size={size} color={color} />;
                     } else if (route.name === 'News') {
                         return <AntDesign name="info" size={size} color={color} />;
-                    } else if (route.name === 'Setting') {
-                        return <AntDesign name="setting" size={size} color={color} />;
-                    }
+                    } 
+                    // else if (route.name === 'Setting') {
+                    //     return <AntDesign name="setting" size={size} color={color} />;
+                    // }
                 },
                 tabBarActiveTintColor: '#80BF3D',
             })}>
@@ -113,10 +114,10 @@ const TabNav = ({ colorTheme }) => {
                     headerShown: false,
                 })}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Setting"
                 component={SettingScreen}
-            />
+            /> */}
         </Tab.Navigator>
     )
 }

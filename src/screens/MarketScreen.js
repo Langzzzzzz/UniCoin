@@ -58,7 +58,7 @@ const MarketScreen = () => {
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={{ backgroundColor: 'white' }}>
-        <Text style={{ marginLeft: 8, fontSize: 32, fontWeight: '800' }}>Welcome</Text>
+        <Text style={{ marginLeft: 16, fontSize: 32, fontWeight: '800' }}>Market</Text>
         <View style={{marginBottom: 80}}>
           <FlatList
             keyExtractor={(item) => item.id}

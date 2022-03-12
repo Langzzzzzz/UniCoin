@@ -14,6 +14,14 @@ import {
 } from "@rainbow-me/animated-charts";
 import { useSharedValue } from 'react-native-reanimated';
 
+const filterDaysArray = [
+  { filterDay: "1", filterText: "24h" },
+  { filterDay: "7", filterText: "7d" },
+  { filterDay: "30", filterText: "30d" },
+  { filterDay: "365", filterText: "1y" },
+  { filterDay: "max", filterText: "All" },
+];
+
 const SearchDetailScreen = ({ navigation, route }) => {
   const coinID = route.params.searchPhrase.toLowerCase();
   const [coinData, setCoinData] = useState("");
@@ -108,7 +116,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
             <View style={styles.titleContainer}>
               <Image source={{ uri: coinData.image }} style={styles.image} />
               <Text style={styles.title}>{coinData.name} </Text>
-              <Text style={{ color: "#808080", fontSize: 16, fontWeight: "600" }}>({symbol?.toUpperCase()})</Text>
+              <Text style={{ color: "#808080", fontSize: 16, fontWeight: "600" }}>({symbol?.toUpperCase()})         </Text>
             </View>
           </View>
         </View>
@@ -116,7 +124,6 @@ const SearchDetailScreen = ({ navigation, route }) => {
         <Divider width={0.5} style={{ marginTop: 8, marginHorizontal: 6 }} />
         <View style={styles.currentPriceWrapper}>
          <ChartYLabel format={formatUSD} style={styles.price} />
-          {/* <Text style={styles.price}>${currentPrice?.toLocaleString('en-Us', { currency: "USD" })}</Text> */}
           <AntDesign name={changeIcon} size={16} color={priceChangeColor} style={{ alignSelf: "center", paddingHorizontal: 4 }} />
           <Text style={{ color: priceChangeColor, alignSelf: 'center', fontSize: 16 }}>{priceChangePercentage24h?.toFixed(2)}%</Text>
         </View>
@@ -133,11 +140,15 @@ const SearchDetailScreen = ({ navigation, route }) => {
         </View>
         {/* chart time frame */}
         <View style={styles.chartTimeFrameContainer}>
-          <FilterComponent filterDay="1" filterText="24H" selectedRange={selectedRange} setSelectedRange={onSelectedRangeChange} />
-          <FilterComponent filterDay="7" filterText="7D" selectedRange={selectedRange} setSelectedRange={onSelectedRangeChange} />
-          <FilterComponent filterDay="30" filterText="30D" selectedRange={selectedRange} setSelectedRange={onSelectedRangeChange} />
-          <FilterComponent filterDay="365" filterText="1Y" selectedRange={selectedRange} setSelectedRange={onSelectedRangeChange} />
-          <FilterComponent filterDay="max" filterText="All" selectedRange={selectedRange} setSelectedRange={onSelectedRangeChange} />
+        {filterDaysArray.map((day) => (
+            <FilterComponent
+              filterDay={day.filterDay}
+              filterText={day.filterText}
+              selectedRange={selectedRange}
+              setSelectedRange={onSelectedRangeChange}
+              key={day.filterText}
+            />
+          ))}
         </View>
         {/* past change percentage */}
         <PastPercentageChangeCard

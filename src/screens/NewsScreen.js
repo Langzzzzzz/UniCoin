@@ -48,7 +48,7 @@ const NewsScreen = () => {
       <View style={{marginHorizontal: 20}}>
         <Text style={{ marginLeft: 8, fontSize: 32, fontWeight:'800' }}>Trending News</Text>
         <Text style={{ marginLeft: 8, fontSize: 24, fontWeight:'600', color: "#808080", marginBottom: 4}}>{currentDate}</Text>
-        <Divider width={0.5} />
+        <Divider width={0.5} style={{marginBottom: 12}}/>
       </View>
       
       
