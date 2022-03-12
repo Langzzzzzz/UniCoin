@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical: 4,
+        paddingVertical: 8,
     },
     leftWrapper: {
         flex: 1,
@@ -68,7 +68,7 @@ const TrendCoinCard = ({ id, name, symbol, small, rank }) => {
                     <Text style={styles.rankStyle}>#{rank}</Text>
                 </View>
             </View>
-            <Divider />
+            {/* <Divider /> */}
         </TouchableOpacity>
     )
 }

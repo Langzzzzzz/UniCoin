@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import { getTrendCoin } from '../../services/cryptoService';
 import TrendCoinCard from '../components/TrendCoinCard';
+import { Divider } from 'react-native-elements';
 
 const SearchScreen = () => {
   const [trendCoinData, setTrendCoinData] = useState([]);
@@ -52,6 +53,7 @@ const SearchScreen = () => {
               rank={item.rank}
             />
           )}
+          ItemSeparatorComponent={() => <Divider  style={{marginHorizontal: 16}}/> }
         />
       </View>
     </SafeAreaView>
