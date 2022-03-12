@@ -6,6 +6,7 @@ import { Divider } from 'react-native-elements'
 import { AntDesign } from '@expo/vector-icons';
 import PastPercentageChangeCard from '../../components/PastPercentageChangeCard';
 import FilterComponent from '../../components/FilterComponent';
+import CoinInformationCard from '../../components/CoinInformationCard';
 import {
   ChartDot,
   ChartPath,
@@ -53,7 +54,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
 
   const priceChangeColor = coinData.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
   const changeIcon = coinData.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
-  
+
 
   const fetchCoinData = async () => {
     const data = await getSearchCoinData(coinID);
@@ -73,9 +74,9 @@ const SearchDetailScreen = ({ navigation, route }) => {
     fetchMarketCoinData(1);
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     latestCurrentPrice.value = currentPrice;
-}, [currentPrice]);
+  }, [currentPrice]);
 
   // const prices= coinMarketData?.prices;
   const chartColor = currentPrice ? "#16c784" : "#ea3943";
@@ -94,7 +95,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
       return formattedValue;
     }
 
-    const formattedValue =`$${parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`
+    const formattedValue = `$${parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`
     return formattedValue;
   };
 
@@ -114,8 +115,8 @@ const SearchDetailScreen = ({ navigation, route }) => {
           </View>
           <View style={styles.middleWrapper}>
             <View style={styles.titleContainer}>
-              <Image source={{ uri: coinData.image }} style={styles.image} />
-              <Text style={styles.title}>{coinData.name} </Text>
+              <Image source={{ uri: coinData?.image }} style={styles.image} />
+              <Text style={styles.title}>{coinData?.name} </Text>
               <Text style={{ color: "#808080", fontSize: 16, fontWeight: "600" }}>({symbol?.toUpperCase()})         </Text>
             </View>
           </View>
@@ -123,7 +124,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
 
         <Divider width={0.5} style={{ marginTop: 8, marginHorizontal: 6 }} />
         <View style={styles.currentPriceWrapper}>
-         <ChartYLabel format={formatUSD} style={styles.price} />
+          <ChartYLabel format={formatUSD} style={styles.price} />
           <AntDesign name={changeIcon} size={16} color={priceChangeColor} style={{ alignSelf: "center", paddingHorizontal: 4 }} />
           <Text style={{ color: priceChangeColor, alignSelf: 'center', fontSize: 16 }}>{priceChangePercentage24h?.toFixed(2)}%</Text>
         </View>
@@ -140,7 +141,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
         </View>
         {/* chart time frame */}
         <View style={styles.chartTimeFrameContainer}>
-        {filterDaysArray.map((day) => (
+          {filterDaysArray.map((day) => (
             <FilterComponent
               filterDay={day.filterDay}
               filterText={day.filterText}
@@ -157,8 +158,22 @@ const SearchDetailScreen = ({ navigation, route }) => {
           priceChangePercentage14d={priceChangePercentage14d}
           priceChangePercentage30d={priceChangePercentage30d}
           priceChangePercentage1y={priceChangePercentage1y} />
-        {/* information card */}
 
+        {/* information card */}
+        <CoinInformationCard
+          rank={rank}
+          description={description}
+          links={links}
+          ath={ath}
+          athChangePercentage={athChangePercentage}
+          athDate={athDate}
+          atl={atl}
+          atlChangePercentage={atlChangePercentage}
+          atlDate={atlDate}
+          marketCap={marketCap}
+          fullyDilutedValuation={fullyDilutedValuation}
+          max_supply={max_supply}
+        />
       </ChartPathProvider>
 
 
