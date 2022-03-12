@@ -8,6 +8,7 @@ import PastPercentageChangeCard from '../../components/PastPercentageChangeCard'
 import FilterComponent from '../../components/FilterComponent';
 import PriceInformationCard from '../../components/PriceInformationCard';
 import CoinInformationCard from '../../components/CoinInformationCard';
+import LoadingComponent from '../../components/LoadingComponent';
 import {
   ChartDot,
   ChartPath,
@@ -32,31 +33,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
   const [selectedRange, setSelectedRange] = useState("1")
   const [coinMarketData, setCoinMarketData] = useState(null);
   const [dataTab, setDataTab] = useState(1);
-  const [notFound, setNotFound] = useState(false);
-
-
-  // const { id,
-  //   name,
-  //   symbol,
-  //   rank,
-  //   image,
-  //   description,
-  //   links,
-  //   currentPrice,
-  //   ath,
-  //   athChangePercentage,
-  //   athDate,
-  //   atl,
-  //   atlChangePercentage,
-  //   atlDate,
-  //   marketCap,
-  //   fullyDilutedValuation,
-  //   priceChangePercentage24h,
-  //   priceChangePercentage7d,
-  //   priceChangePercentage14d,
-  //   priceChangePercentage30d,
-  //   priceChangePercentage1y,
-  //   max_supply } = coinData
+  const [isLoading, setIsLoading] = useState(false);
 
   const priceChangeColor = coinData?.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
   const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
@@ -75,9 +52,15 @@ const SearchDetailScreen = ({ navigation, route }) => {
     setCoinMarketData(fetchedCoinMarketData);
   };
   const latestCurrentPrice = useSharedValue(coinData?.currentPrice);
+
   useEffect(() => {
+    setIsLoading(true);
     fetchCoinData();
     fetchMarketCoinData(1);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    
   }, [])
 
   useEffect(() => {
@@ -111,8 +94,10 @@ const SearchDetailScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
-      { coinData ?
-        <ChartPathProvider
+      { 
+      isLoading ? (<LoadingComponent />) : 
+      (coinData ?
+        (<ChartPathProvider
         data={{
           points: coinMarketData?.prices.map(([x, y]) => ({ x, y })),
           smoothingStrategy: "bezier",
@@ -194,7 +179,7 @@ const SearchDetailScreen = ({ navigation, route }) => {
           dataTab == 2 &&
             <CoinInformationCard links ={coinData.links} description={coinData.description} />
           }
-      </ChartPathProvider> : <NotFound navigation={navigation}/>
+      </ChartPathProvider>) : (<NotFound navigation={navigation}/>))
       }
     </SafeAreaView>
   )
