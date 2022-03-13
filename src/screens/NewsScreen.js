@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { getNews } from '../../services/cryptoService'
 import NewsCard from '../components/NewsCard'
 import { Divider } from 'react-native-elements'
+import LoadingComponent from '../components/LoadingComponent'
 
 const NewsScreen = () => {
   const [newsData, setNewsData] = useState([]);
   const [currentDate, setCurrentDate] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   getCurrentDate = () => {
     var date = new Date().getDate();
@@ -24,7 +26,12 @@ const NewsScreen = () => {
       setCurrentDate(date);
       setNewsData(data);
     }
+    setIsLoading(true);
     fetchNewsData();
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
   }, [])
 
   // useEffect(() => {
@@ -46,28 +53,30 @@ const NewsScreen = () => {
       backgroundColor: 'white', flex: 1
     }}>
       <View style={{marginHorizontal: 20}}>
-        <Text style={{ marginLeft: 8, fontSize: 32, fontWeight:'800' }}>Trending News</Text>
+        <Text style={{ marginLeft: 8, fontSize: 32, fontWeight:'800', color: '#fd2c4f' }}>Top Stories</Text>
         <Text style={{ marginLeft: 8, fontSize: 24, fontWeight:'600', color: "#808080", marginBottom: 4}}>{currentDate}</Text>
         <Divider width={0.5} style={{marginBottom: 12}}/>
       </View>
       
+      {
+        isLoading ? (<LoadingComponent />) : (<FlatList
+          keyExtractor={(item, index) => index }
+          data={newsData}
+          renderItem={({ item }) => (
+            <NewsCard
+              author={item.author}
+              content={item.content}
+              source={item.source}
+              title={item.title}
+              image={item.urlToImage}
+              publishedAt={item.publishedAt}
+              description={item.description}
+              url={item.url}
+            />
+          )}
+        />)
+      }
       
-      <FlatList
-        keyExtractor={(item, index) => index }
-        data={newsData}
-        renderItem={({ item }) => (
-          <NewsCard
-            author={item.author}
-            content={item.content}
-            source={item.source}
-            title={item.title}
-            image={item.urlToImage}
-            publishedAt={item.publishedAt}
-            description={item.description}
-            url={item.url}
-          />
-        )}
-      />
     </SafeAreaView>
 
   )
