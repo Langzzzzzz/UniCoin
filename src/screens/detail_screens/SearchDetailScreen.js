@@ -67,7 +67,6 @@ const SearchDetailScreen = ({ navigation, route }) => {
     latestCurrentPrice.value = coinData?.currentPrice;
   }, [coinData?.currentPrice]);
 
-  // const prices= coinMarketData?.prices;
   const chartColor = coinData?.currentPrice ? "#16c784" : "#ea3943";
   const screenWidth = Dimensions.get("window").width;
 
