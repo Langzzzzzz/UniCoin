@@ -26,8 +26,8 @@ const PortofolioStackNavigator = () => {
     return (
         <ProtofolioStack.Navigator >
             <ProtofolioStack.Screen name="PortofolioStack" component={PortofolioScreen} options={{ headerShown: false }} />
-            <ProtofolioStack.Screen name="LoginDetail" component={LoginDetailScreen} />
-            <ProtofolioStack.Screen name="SignupDetail" component={SignupDetailScreen} />
+            <ProtofolioStack.Screen name="LoginDetail" component={LoginDetailScreen} options={{ headerShown: false }} />
+            <ProtofolioStack.Screen name="SignupDetail" component={SignupDetailScreen} options={{ headerShown: false }} />
             <ProtofolioStack.Screen name="PortofolioDetail" component={PortofolioDetailScreen} options={{ headerShown: false }} />
             <ProtofolioStack.Screen name="CoinDetail" component={CoinDetailScreen} options={{ headerShown: false }} />
         </ProtofolioStack.Navigator>
