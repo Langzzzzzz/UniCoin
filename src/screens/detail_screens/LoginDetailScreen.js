@@ -1,20 +1,35 @@
 import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomInput from '../../components/Signup/CustomInput'
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { auth } from '../../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginDetailScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
+  const [isSignedIn, setSignedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate('PortofolioDetail');
+      }
+    })
+
+    return unsubscribe
+  }, [])
   function onLoginPress() {
-    console.warn("Login button ; " + username + " ; " + password);
+    console.log("Login button ; " + username + " ; " + password);
+    signInWithEmailAndPassword(auth, username, password)
+      .then((res) => { console.log(res); setSignedIn(true); })
+      .catch((err) => { console.log(err); })
   }
 
   function onGoogleLoginPress() {
-    console.warn("onGoogleLoginPress button ; " + username + " ; " + password);
+    console.log("onGoogleLoginPress button ; " + username + " ; " + password);
   }
 
   return (

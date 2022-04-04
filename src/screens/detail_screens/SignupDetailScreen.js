@@ -3,14 +3,20 @@ import React, { useState } from 'react'
 import CustomInput from '../../components/Signup/CustomInput'
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { auth } from '../../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const SignupDetailScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
+  const [isSignedIn, setSignedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function onLoginPress() {
-    console.warn("Login button ; " + username + " ; " + password);
+  function onSignUpPress() {
+    console.log("Singup button ; " + username + " ; " + password);
+    createUserWithEmailAndPassword(auth, username, password)
+      .then((res) => { console.log(res); setSignedIn(true); })
+      .catch((err) => { console.log(err); })
   }
 
   return (
@@ -34,7 +40,7 @@ const SignupDetailScreen = ({ navigation }) => {
           <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true} />
           <TouchableOpacity
             style={[styles.button, { marginVertical: 8 }]}
-            onPress={onLoginPress} >
+            onPress={onSignUpPress} >
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
