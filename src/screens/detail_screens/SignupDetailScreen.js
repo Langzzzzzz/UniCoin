@@ -11,16 +11,18 @@ import { collection, addDoc, setDoc, doc} from "firebase/firestore";
 const SignupDetailScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function onSignUpPress() {
     console.log("Singup button ; " + username + " ; " + password);
-    createUserWithEmailAndPassword(auth, username, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
         console.log(res);
         navigation.navigate('PortofolioDetail');
         setDoc(doc(db, "users", res.user.uid), {
-          username: res.user.email,
+          email: res.user.email,
+          username: username,
         })
       })
       .catch((err) => {
@@ -63,9 +65,11 @@ const SignupDetailScreen = ({ navigation }) => {
         <Text style={styles.title}>Welcome!</Text>
       </View>
       <View style={{ marginHorizontal: 20 }}>
+      <Text style={styles.subtitle}>Username</Text>
+        <CustomInput placeholder="Username" value={username} setValue={setUsername} />
         <Text style={styles.subtitle}>Email Address</Text>
         <View style={{ alignItems: 'center' }}>
-          <CustomInput placeholder="email@example.com" value={username} setValue={setUsername} />
+          <CustomInput placeholder="email@example.com" value={email} setValue={setEmail} />
         </View>
         <Text style={styles.subtitle}>Password</Text>
         <View style={{ alignItems: 'center' }}>
