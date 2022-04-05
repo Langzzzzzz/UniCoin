@@ -4,7 +4,7 @@ import CustomInput from '../../components/Signup/CustomInput'
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { auth } from '../../../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, } from 'firebase/auth';
 
 const LoginDetailScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
@@ -21,15 +21,12 @@ const LoginDetailScreen = ({ navigation }) => {
 
     return unsubscribe
   }, [])
+
   function onLoginPress() {
     console.log("Login button ; " + username + " ; " + password);
     signInWithEmailAndPassword(auth, username, password)
       .then((res) => { console.log(res); setSignedIn(true); })
       .catch((err) => { console.log(err); })
-  }
-
-  function onGoogleLoginPress() {
-    console.log("onGoogleLoginPress button ; " + username + " ; " + password);
   }
 
   return (
@@ -53,7 +50,7 @@ const LoginDetailScreen = ({ navigation }) => {
           onPress={onLoginPress} >
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 8 }}>
+        {/* <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 8 }}>
           <View style={{ flex: 1, height: 1, backgroundColor: 'grey' }} />
           <View>
             <Text style={{ width: 140, textAlign: 'center', color: 'grey' }}>Other Way to Log In</Text>
@@ -64,7 +61,7 @@ const LoginDetailScreen = ({ navigation }) => {
           style={[styles.button, { marginVertical: 8, backgroundColor: '#FAE9EA' }]}
           onPress={onGoogleLoginPress} >
           <Text style={[styles.buttonText, { color: '#DD4D44' }]}>Log In With Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   )

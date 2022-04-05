@@ -1,22 +1,54 @@
-import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import CustomInput from '../../components/Signup/CustomInput'
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc, setDoc, doc} from "firebase/firestore";
 
 const SignupDetailScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
-  const [isSignedIn, setSignedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   function onSignUpPress() {
     console.log("Singup button ; " + username + " ; " + password);
     createUserWithEmailAndPassword(auth, username, password)
-      .then((res) => { console.log(res); setSignedIn(true); })
-      .catch((err) => { console.log(err); })
+      .then((res) => {
+        console.log(res);
+        navigation.navigate('PortofolioDetail');
+        setDoc(doc(db, "users", res.user.uid), {
+          username: res.user.email,
+        })
+      })
+      .catch((err) => {
+        let title = '';
+        let message = '';
+        console.log(typeof (err.message));
+        console.log(err.message);
+        if (err.message=== "Firebase: Error (auth/email-already-in-use).") {
+          title = "Email already in use";
+          message = "The email address is already in use by another account.";
+        }
+        else if (err.message === "Firebase: Error (auth/invalid-email).") {
+          title = "Invalid email";
+          message = "Email address is badly formatted.";
+        } else if (err.message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+          title = "Weak password";
+          message = "Password should be at least 6 characters.";
+        } else if (err.message === "Firebase: Error (auth/operation-not-allowed).") {
+          title = "Operation not allowed";
+          message = "Please try again";
+        } else{
+          title = "Error";
+          message = "Please try again";
+        }
+        Alert.alert(title, message, [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ]);
+       })
   }
 
   return (
