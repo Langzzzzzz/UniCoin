@@ -3,21 +3,25 @@ import React, { useEffect, useState } from 'react'
 import { getSearchCoinData } from '../../../services/cryptoService'
 import { AntDesign } from '@expo/vector-icons';
 
-const PortofoliolistItem = ({ item }) => {
+const PortofoliolistItem = ({ item, onPrice }) => {
     const [coinData, setCoinData] = useState("");
     const fetchCoinData = async () => {
         console.log(item?.coinID)
         const data = await getSearchCoinData(item?.coinID);
         setCoinData(data);
     }
+    
     useEffect(() => {
         fetchCoinData();
     }, [])
 
-    const priceChangeColor = coinData?.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
-    const chartColor = coinData?.priceChangePercentage24h > 0 ? 'rgba(128, 190, 60, 0.8)' : 'rgba(254, 80, 80, 0.8)'
-    const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
+    useEffect(() => {
+        onPrice(item?.coinID, coinData?.currentPrice, coinData?.priceChangeInCurrency, coinData?.priceChangePercentage24h);
+    }, [coinData])
 
+    const priceChangeColor = coinData?.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
+    const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
+    
     return (
         <TouchableOpacity >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16, marginVertical: 4 }} >

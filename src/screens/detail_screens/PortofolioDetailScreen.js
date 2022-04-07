@@ -85,15 +85,6 @@ const PortofolioDetailScreen = () => {
       {
         dataTab == 2 &&
         <>
-          <PotofolioCard />
-
-          {/* portofolio coin list */}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16, marginVertical: 8}} >
-            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>COIN</Text>
-            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>PRICE</Text>
-            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>24H</Text>
-            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>Holding</Text>
-          </View>
           <Portofoliolist PortofoliolistData={data?.portfolio}/>
           {/* add button */}
           <View style={styles.buttonContainer}>

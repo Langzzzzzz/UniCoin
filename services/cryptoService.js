@@ -108,6 +108,7 @@ const formatCoinData = (data) => {
         priceChangePercentage14d: data.market_data.price_change_percentage_14d,
         priceChangePercentage30d: data.market_data.price_change_percentage_30d,
         priceChangePercentage1y: data.market_data.price_change_percentage_1y,
+        priceChangeInCurrency: data.market_data.price_change_24h_in_currency.cad,
         max_supply: data.market_data.max_supply,
     }
     return coinData

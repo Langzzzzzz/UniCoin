@@ -8,16 +8,19 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import PortofoliolistItem from './ListItem/PortofoliolistItem'
 import { Divider } from 'react-native-elements';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import PotofolioCard from './PotofolioCard';
 
-const Portofoliolist = ({PortofoliolistData}) => {
+const Portofoliolist = ({ PortofoliolistData }) => {
     const [listData, setListData] = useState();
+    const [tempData, setTempData] = useState();
 
     useEffect(() => {
-        setListData(PortofoliolistData?.map((item, index) => ({ key: `${index}`, obj: item})));
+        setListData(PortofoliolistData?.map((item, index) => ({ key: `${index}`, obj: item })));
+        setTempData(PortofoliolistData?.map((item, index) => ({ key: index, name: item.coinID, currentPrice: 0, priceNumberPair: item.priceNumberPair })));
     }, [PortofoliolistData]);
 
     const closeRow = (rowMap, rowKey) => {
@@ -38,13 +41,29 @@ const Portofoliolist = ({PortofoliolistData}) => {
         console.log('This row opened', rowKey);
     };
 
+    const onPrice = (coinID, currentPrice, priceChangeInCurrency, priceChangePercentage24h) => {
+        const nextTempData = [...tempData];
+        console.log("asdasdas coinID", coinID);
+        console.log("asdasdas currentPrice", currentPrice);
+        console.log("asdasdas priceChangePercentage24h", priceChangeInCurrency);
+        nextTempData.map((item, index) => {
+            if (item.name == coinID) {
+                item.currentPrice = currentPrice;
+                item.priceChangeInCurrency = priceChangeInCurrency;
+                item.priceChangePercentage24h = priceChangePercentage24h;
+            }
+        });
+        setTempData(nextTempData);
+        console.log("tempData", nextTempData);
+    };
+
     const renderItem = data => (
         <TouchableHighlight
             onPress={() => console.log('You touched me')}
             style={styles.rowFront}
             underlayColor={'white'}
         >
-            <PortofoliolistItem item={data.item.obj} />
+            <PortofoliolistItem item={data.item.obj} onPrice={(coinID, price, priceChangeInCurrency, priceChangePercentage24h) => onPrice(coinID, price, priceChangeInCurrency, priceChangePercentage24h)}/>
         </TouchableHighlight>
     );
 
@@ -58,7 +77,7 @@ const Portofoliolist = ({PortofoliolistData}) => {
             </TouchableOpacity>
         </View>
     );
-
+    
     return (
         // <View>
         //     <FlatList
@@ -73,18 +92,27 @@ const Portofoliolist = ({PortofoliolistData}) => {
         //     />
         // </View>
 
-            <View>
-                <SwipeListView
-                    data={listData}
-                    renderItem={renderItem}
-                    renderHiddenItem={renderHiddenItem}
-                    rightOpenValue={-75}
-                    previewRowKey={"0"}
-                    previewOpenValue={-40}
-                    previewOpenDelay={3000}
-                    onRowDidOpen={onRowDidOpen}
-                />
-                </View>
+        <View>
+            <PotofolioCard tempData={tempData} />
+
+            {/* portofolio coin list */}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16, marginVertical: 8 }} >
+                <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>COIN</Text>
+                <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>PRICE</Text>
+                <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>24H</Text>
+                <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>Holding</Text>
+            </View>
+            <SwipeListView
+                data={listData}
+                renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
+                rightOpenValue={-75}
+                previewRowKey={"0"}
+                previewOpenValue={-40}
+                previewOpenDelay={3000}
+                onRowDidOpen={onRowDidOpen}
+            />
+        </View>
     )
 }
 
