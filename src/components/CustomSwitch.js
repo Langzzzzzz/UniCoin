@@ -26,6 +26,7 @@ const CustomSwitch = ({ selectionMode, option1, option2, onSelectSwitch }) => {
 					flex: 1,
 				}}>
 				<View style={{
+					paddingBottom: 10,
 					borderBottomColor: getSelectionMode == 1 ? '#AD40AF' : '',
 					borderBottomWidth: getSelectionMode == 1 ? 2 : '',
 					borderRadius: 10,
@@ -51,6 +52,7 @@ const CustomSwitch = ({ selectionMode, option1, option2, onSelectSwitch }) => {
 					alignItems: 'center',
 				}}>
 				<View style={{
+					paddingBottom: 10,
 					borderBottomColor: getSelectionMode == 2 ? '#AD40AF' : '',
 					borderBottomWidth: getSelectionMode == 2 ? 2 : '',
 					borderRadius: 10,

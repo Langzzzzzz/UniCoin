@@ -1,14 +1,32 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { auth } from '../../../firebase'
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomSwitch from '../../components/CustomSwitch';
+import PotofolioCard from '../../components/PotofolioCard';
+import { db } from '../../../firebase';
+import { collection, onSnapshot, getDoc, where, doc } from 'firebase/firestore';
+import Watchlist from '../../components/Watchlist';
+import Portofoliolist from '../../components/Portofoliolist';
 
 const PortofolioDetailScreen = () => {
   const navigation = useNavigation();
 
   const [dataTab, setDataTab] = useState(1);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const docRef = doc(db, "users", auth.currentUser.uid);
+    const fetchMarketData = async () => {
+      await getDoc(docRef)
+        .then((doc) => {
+          console.log(doc.data());
+          setData(doc.data());
+        })
+    }
+    fetchMarketData();
+  }, []);
+
 
   const onSelectSwitch = (value) => {
     setDataTab(value)
@@ -36,7 +54,7 @@ const PortofolioDetailScreen = () => {
       <View style={styles.itemWrapper}>
         <View style={styles.middleWrapper}>
           <View style={styles.titleContainer}>
-            <Text style={{ color: "#808080", fontSize: 16, fontWeight: "600" }}>        {auth.currentUser?.email}</Text>
+            <Text style={{ color: "black", fontSize: 16, fontWeight: "600" }}>        {data?.username}'s Portofolio</Text>
           </View>
         </View>
         <View style={styles.navContainer}>
@@ -51,13 +69,43 @@ const PortofolioDetailScreen = () => {
       {/* Watchlist */}
       {
         dataTab == 1 &&
-        <ScrollView>
-          <Text> tab 1</Text>
-        </ScrollView>}
+        <>
+          {/* watchlist coin list */}
+          <Watchlist WatchlistData={data?.watchlist} />
+          {/* add button */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("CoinDetail")} >
+              <Text style={styles.buttonText}>Add Coin to Watchlist</Text>
+            </TouchableOpacity>
+          </View>
+        </>}
       {/* Portofolio */}
       {
         dataTab == 2 &&
-        <Text>tab 2</Text>
+        <>
+          <PotofolioCard />
+
+          {/* portofolio coin list */}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16, marginVertical: 8}} >
+            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>COIN</Text>
+            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>PRICE</Text>
+            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>24H</Text>
+            <Text style={{ fontSize: 12, fontWeight: '600', color: '#a9a9a9' }}>Holding</Text>
+          </View>
+          <Portofoliolist PortofoliolistData={data?.portfolio}/>
+          {/* add button */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("CoinDetail")}>
+              <Text style={styles.buttonText}>Add Coin to Portofolio List</Text>
+            </TouchableOpacity>
+          </View>
+
+
+        </>
       }
     </SafeAreaView>
   )
@@ -83,4 +131,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1
   },
+  button: {
+    backgroundColor: "#5F84E8",
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 15,
+    marginVertical: 8
+  }
 })

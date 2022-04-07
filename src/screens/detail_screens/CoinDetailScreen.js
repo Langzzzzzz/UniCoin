@@ -1,11 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity} from 'react-native'
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const CoinDetailScreen = () => {
+  const navigation = useNavigation();
   return (
-    <View>
-      <Text>CoinDetailScreen</Text>
-    </View>
+    <SafeAreaView>
+       <TouchableOpacity
+              onPress={() => navigation.goBack()}>
+              <Text>goBack Buton</Text>
+            </TouchableOpacity>
+    </SafeAreaView>
   )
 }
 
