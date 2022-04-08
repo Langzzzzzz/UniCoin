@@ -30,6 +30,7 @@ const PortofolioStackNavigator = () => {
             <ProtofolioStack.Screen name="SignupDetail" component={SignupDetailScreen} options={{ headerShown: false }} />
             <ProtofolioStack.Screen name="PortofolioDetail" component={PortofolioDetailScreen} options={{ headerShown: false }} />
             <ProtofolioStack.Screen name="CoinDetail" component={CoinDetailScreen} options={{ headerShown: false }} />
+            <MarketStack.Screen name="WatchDetail" component={SearchDetailScreen} options={{ headerShown: false }}  />
         </ProtofolioStack.Navigator>
     );
 };
@@ -146,6 +147,8 @@ const getTabBarVisibility = route => {
     } else if (routeName == 'NewsDetail') {
         return 'none';
     } else if (routeName == 'SearchDetail') {
+        return 'none';
+    } else if (routeName == 'WatchDetail') {
         return 'none';
     }
     return 'flex';

@@ -17,14 +17,17 @@ const PortofolioDetailScreen = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     const docRef = doc(db, "users", auth.currentUser.uid);
-    const fetchMarketData = async () => {
-      await getDoc(docRef)
-        .then((doc) => {
-          console.log(doc.data());
-          setData(doc.data());
-        })
-    }
-    fetchMarketData();
+    // const fetchMarketData = async () => {
+      // await getDoc(docRef)
+      //   .then((doc) => {
+      //     console.log(doc.data());
+      //     setData(doc.data());
+      //   })
+      onSnapshot(docRef, (querySnapshot) => {
+        setData(querySnapshot.data());
+      })
+    // }
+    // fetchMarketData();
   }, []);
 
 

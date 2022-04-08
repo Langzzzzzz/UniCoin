@@ -8,10 +8,13 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import WatchlistItem from './ListItem/WatchlistItem'
 import { Divider } from 'react-native-elements';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { auth } from '../../firebase'
+import { db } from '../../firebase';
+import { collection, onSnapshot, getDoc, where, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
 const Watchlist = ({ WatchlistData }) => {
     const [listData, setListData] = useState();
@@ -28,10 +31,17 @@ const Watchlist = ({ WatchlistData }) => {
 
     const deleteRow = (rowMap, rowKey) => {
         closeRow(rowMap, rowKey);
-        // const newData = [...listData];
-        // const prevIndex = listData.findIndex(item => item.key === rowKey);
-        // newData.splice(prevIndex, 1);
-        // setListData(newData);
+        const newData = [...listData];
+        const prevIndex = listData.findIndex(item => item.key === rowKey);
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        updateDoc(docRef, {
+            watchlist: arrayRemove(newData[prevIndex].text)
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+        })
+        newData.splice(prevIndex, 1);
+        setListData(newData);
     };
 
     const onRowDidOpen = rowKey => {
@@ -60,31 +70,19 @@ const Watchlist = ({ WatchlistData }) => {
     );
 
     return (
-        // <View>
-        //     <FlatList
-        //         keyExtractor={(item, index) => index}
-        //         data={WatchlistData}
-        //         renderItem={({ item }) => (
-        //             <WatchlistItem
-        //                 coinID={item}
-        //             />
-        //         )}
-        //         ItemSeparatorComponent={() => <Divider style={{ marginHorizontal: 16, marginVertical: 2 }} />}
-        //     />
-        // </View>
 
-            <View>
-                <SwipeListView
-                    data={listData}
-                    renderItem={renderItem}
-                    renderHiddenItem={renderHiddenItem}
-                    rightOpenValue={-75}
-                    previewRowKey={"0"}
-                    previewOpenValue={-40}
-                    previewOpenDelay={3000}
-                    onRowDidOpen={onRowDidOpen}
-                />
-                </View>
+        <View>
+            <SwipeListView
+                data={listData}
+                renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
+                rightOpenValue={-75}
+                previewRowKey={"0"}
+                previewOpenValue={-40}
+                previewOpenDelay={3000}
+                onRowDidOpen={onRowDidOpen}
+            />
+        </View>
     )
 }
 

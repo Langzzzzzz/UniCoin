@@ -2,9 +2,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getSearchCoinData } from '../../../services/cryptoService'
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const WatchlistItem = ({ coinID }) => {
     const [coinData, setCoinData] = useState("");
+    const navigation = useNavigation();
+
     const fetchCoinData = async () => {
         const data = await getSearchCoinData(coinID);
         setCoinData(data);
@@ -18,7 +21,9 @@ const WatchlistItem = ({ coinID }) => {
     const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
 
     return (
-        <TouchableOpacity >
+        <TouchableOpacity onPress={() => navigation.navigate('WatchDetail',{
+            searchPhrase:coinID
+          })} >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16, marginVertical: 4}} >
                 {/* LeftSide */}
                 <View style={styles.leftWrapper}>
