@@ -23,9 +23,10 @@ const PortofolioDetailScreen = () => {
       //     console.log(doc.data());
       //     setData(doc.data());
       //   })
-      onSnapshot(docRef, (querySnapshot) => {
+      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setData(querySnapshot.data());
       })
+      return () => unsubscribe();
     // }
     // fetchMarketData();
   }, []);

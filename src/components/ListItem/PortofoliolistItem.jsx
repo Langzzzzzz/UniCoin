@@ -1,10 +1,17 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getSearchCoinData } from '../../../services/cryptoService'
 import { AntDesign } from '@expo/vector-icons';
+import UpdateModal from '../UpdateModal';
 
 const PortofoliolistItem = ({ item, onPrice }) => {
     const [coinData, setCoinData] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const changeModalVisible = (bool) => {
+        setIsModalVisible(bool);
+    }
+
     const fetchCoinData = async () => {
         
         const data = await getSearchCoinData(item?.coinID);
@@ -18,13 +25,14 @@ const PortofoliolistItem = ({ item, onPrice }) => {
 
     useEffect(() => {
         onPrice(item?.coinID, coinData?.currentPrice, coinData?.priceChangeInCurrency, coinData?.priceChangePercentage24h);
-    }, [coinData, item])
+    }, [coinData, item, isModalVisible])
 
     const priceChangeColor = coinData?.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
     const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"
     
     return (
-        <TouchableOpacity >
+        <>
+        <TouchableOpacity onPress={() => changeModalVisible(true)}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16, marginVertical: 4 }} >
                 {/* LeftSide */}
                 <View style={styles.leftWrapper}>
@@ -47,6 +55,21 @@ const PortofoliolistItem = ({ item, onPrice }) => {
                 
             </View>
         </TouchableOpacity>
+        <Modal 
+            transparent={true}
+            animationType="fade"
+            visible={isModalVisible}
+            onRequestClose={() => { 
+                changeModalVisible(false);
+                console.log("Modal has been closed.")
+            }}>
+            <UpdateModal 
+                changeModalVisible={changeModalVisible}
+                item={item}
+                />
+                </Modal>
+        </>
+        
     )
 }
 
