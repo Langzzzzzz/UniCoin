@@ -78,7 +78,7 @@ const Watchlist = ({ WatchlistData }) => {
                 renderHiddenItem={renderHiddenItem}
                 rightOpenValue={-75}
                 previewRowKey={"0"}
-                previewOpenValue={-40}
+                previewOpenValue={-0.01}
                 previewOpenDelay={3000}
                 onRowDidOpen={onRowDidOpen}
             />

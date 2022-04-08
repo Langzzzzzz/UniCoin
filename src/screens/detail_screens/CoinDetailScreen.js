@@ -19,21 +19,24 @@ const CoinDetailScreen = () => {
   }, [price, number])
 
   const onAdd = () => {
-    const docRef = doc(db, "users", auth.currentUser.uid);
-    if(Number(number) > 0){
+    if (coinID) {
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      if (Number(number) > 0) {
+        updateDoc(docRef, {
+          portfolio: arrayUnion({ coinID: coinID, priceNumberPair: [Number(price), Number(number)] })
+        })
+      }
       updateDoc(docRef, {
-        portfolio: arrayUnion({coinID: coinID, priceNumberPair: [Number(price), Number(number)]})
+        watchlist: arrayUnion(coinID)
       })
+        .then(() => {
+          navigation.goBack()
+          console.log("success")
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
-    updateDoc(docRef, {
-      watchlist: arrayUnion(coinID)
-    })
-      .then(() => {
-        console.log("success")
-      })
-      .catch((error) => {
-        console.log(error);
-      })
   }
   const onCancel = () => {
     setCoinID("");
@@ -43,10 +46,6 @@ const CoinDetailScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: 16 }}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}>
-        <Text>goBack Buton</Text>
-      </TouchableOpacity>
       <Text style={styles.subtitle}>Coin ID</Text>
       <CustomInput placeholder="Coin ID" value={coinID} setValue={setCoinID} />
       <Text style={styles.subtitle}>Price per Coin</Text>

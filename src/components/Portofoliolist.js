@@ -14,7 +14,7 @@ import { Divider } from 'react-native-elements';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import PotofolioCard from './PotofolioCard';
 import { db } from '../../firebase';
-import { collection, onSnapshot, getDoc, where, doc, update } from 'firebase/firestore';
+import { collection, onSnapshot, getDoc, where, doc, update, updateDoc, arrayUnion, arrayRemove} from 'firebase/firestore';
 import { auth } from '../../firebase';
 
 const Portofoliolist = ({ PortofoliolistData }) => {
@@ -26,41 +26,23 @@ const Portofoliolist = ({ PortofoliolistData }) => {
         setTempData(PortofoliolistData?.map((item, index) => ({ key: index, name: item.coinID, currentPrice: 0, priceNumberPair: item.priceNumberPair })));
     }, [PortofoliolistData]);
 
-    useEffect(() => {
-        
-    }, [tempData]);
-
     const closeRow = (rowMap, rowKey) => {
         if (rowMap[rowKey]) {
             rowMap[rowKey].closeRow();
         }
     };
 
-    // const deleteDataInFirebase = async () => {
-    //     const docRef = doc(db, "users", auth.currentUser.uid);
-    //     await docRef.update({
-    //         Portofolio: PortofoliolistData
-    //     })
-    // }
 
     const deleteRow = (rowMap, rowKey) => {
         closeRow(rowMap, rowKey);
         const newData = [...listData];
         const prevIndex = listData.findIndex(item => item.key === rowKey);
         newData.splice(prevIndex, 1);
-        setListData(newData);
-        setTempData(newData);
-        PortofoliolistData = newData;
         console.log("==========================",newData);
-        // const docRef = doc(db, "users", auth.currentUser.uid);
-        // console.log("==============asdasd============",docRef.data());
-        // docRef.update({
-        //     Portofolio: PortofoliolistData
-        // })
-        console.log("asdasdasd",PortofoliolistData);
-        db.collection("users").doc(auth.currentUser.uid).update({
-            Portofolio: PortofoliolistData
-        })
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        updateDoc(docRef, {
+            portfolio: arrayRemove(PortofoliolistData[prevIndex])
+          })
     };
 
     const onRowDidOpen = rowKey => {
@@ -105,19 +87,6 @@ const Portofoliolist = ({ PortofoliolistData }) => {
     );
     
     return (
-        // <View>
-        //     <FlatList
-        //         keyExtractor={(item, index) => index}
-        //         data={WatchlistData}
-        //         renderItem={({ item }) => (
-        //             <WatchlistItem
-        //                 coinID={item}
-        //             />
-        //         )}
-        //         ItemSeparatorComponent={() => <Divider style={{ marginHorizontal: 16, marginVertical: 2 }} />}
-        //     />
-        // </View>
-
         <View>
             <PotofolioCard tempData={tempData} />
 
@@ -134,7 +103,7 @@ const Portofoliolist = ({ PortofoliolistData }) => {
                 renderHiddenItem={renderHiddenItem}
                 rightOpenValue={-75}
                 previewRowKey={"0"}
-                previewOpenValue={-40}
+                previewOpenValue={-0.01}
                 previewOpenDelay={3000}
                 onRowDidOpen={onRowDidOpen}
             />

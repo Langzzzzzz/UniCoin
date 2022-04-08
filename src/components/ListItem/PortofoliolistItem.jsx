@@ -17,7 +17,7 @@ const PortofoliolistItem = ({ item, onPrice }) => {
 
     useEffect(() => {
         onPrice(item?.coinID, coinData?.currentPrice, coinData?.priceChangeInCurrency, coinData?.priceChangePercentage24h);
-    }, [coinData])
+    }, [coinData, item])
 
     const priceChangeColor = coinData?.priceChangePercentage24h > 0 ? "#80BF3D" : "#FE5050"
     const changeIcon = coinData?.priceChangePercentage24h > 0 ? "caretup" : "caretdown"

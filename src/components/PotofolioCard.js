@@ -11,6 +11,7 @@ const PotofolioCard = ({ tempData }) => {
 
 
     calculate = () => {
+        console.log("calculate", tempData);
         let total = 0
         let totalBuyPrice = 0
         let changeIn24h = 0
