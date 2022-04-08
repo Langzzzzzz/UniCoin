@@ -37,8 +37,13 @@ const Portofoliolist = ({ PortofoliolistData }) => {
         closeRow(rowMap, rowKey);
         const newData = [...listData];
         const prevIndex = listData.findIndex(item => item.key === rowKey);
-        newData.splice(prevIndex, 1);
-        console.log("==========================",newData);
+        // console.log("=========before=================",newData);
+        // newData.splice(prevIndex, 1);
+        // console.log("============after==============",newData);
+        // setListData(newData);
+        // tempData.splice(prevIndex, 1);
+        // console.log("==========================",newData);
+        setListData([])
         const docRef = doc(db, "users", auth.currentUser.uid);
         updateDoc(docRef, {
             portfolio: arrayRemove(PortofoliolistData[prevIndex])

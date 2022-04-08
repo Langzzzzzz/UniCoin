@@ -6,12 +6,13 @@ import { AntDesign } from '@expo/vector-icons';
 const PortofoliolistItem = ({ item, onPrice }) => {
     const [coinData, setCoinData] = useState("");
     const fetchCoinData = async () => {
-        console.log(item?.coinID)
+        
         const data = await getSearchCoinData(item?.coinID);
         setCoinData(data);
     }
     
     useEffect(() => {
+        console.log("ProtofolioList: useEffect", item?.coinID);
         fetchCoinData();
     }, [])
 

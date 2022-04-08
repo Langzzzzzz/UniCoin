@@ -13,6 +13,7 @@ const WatchlistItem = ({ coinID }) => {
         setCoinData(data);
     }
     useEffect(() => {
+        console.log("WatchListItem: useEffect", coinID);
         fetchCoinData();
     }, [])
 

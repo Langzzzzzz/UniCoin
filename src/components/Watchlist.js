@@ -40,8 +40,6 @@ const Watchlist = ({ WatchlistData }) => {
         .then(() => {
             console.log("Document successfully updated!");
         })
-        newData.splice(prevIndex, 1);
-        setListData(newData);
     };
 
     const onRowDidOpen = rowKey => {
