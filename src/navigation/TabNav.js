@@ -77,7 +77,7 @@ const TabNav = ({ colorTheme }) => {
                 tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === 'Market') {
                         return <AntDesign name="areachart" size={size} color={color} />;
-                    } else if (route.name === 'Portofolio') {
+                    } else if (route.name === 'Portfolio') {
                         return <AntDesign name="staro" size={size} color={color} />;
                     } else if (route.name === 'Search') {
                         return <AntDesign name="search1" size={size} color={color} />;
@@ -101,7 +101,7 @@ const TabNav = ({ colorTheme }) => {
                 })}
             />
             <Tab.Screen
-                name="Portofolio"
+                name="Portfolio"
                 options={({ route }) => ({
                     tabBarStyle: {
                         display: getTabBarVisibility(route),

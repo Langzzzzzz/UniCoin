@@ -48,7 +48,7 @@ const PotofolioCard = ({ tempData }) => {
                 <View style={{
 
                 }}>
-                    <Text style={{ marginBottom: 2, fontSize: 18, fontWeight: '300' }}>My portofolio</Text>
+                    <Text style={{ marginBottom: 2, fontSize: 18, fontWeight: '300' }}>My portfolio</Text>
                     <Text style={{ marginBottom: 2, fontSize: 32 }}>${total?.toLocaleString('en-Us', { currency: "USD" })}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ marginBottom: 2, fontSize: 16, color: "#a9a9a9" }}>24H change</Text>

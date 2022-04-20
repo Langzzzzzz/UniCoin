@@ -52,7 +52,7 @@ const PortofolioScreen = ({navigation}) => {
         speed={1}
         loop={true}
       />
-      <Text style={{fontSize: 18, fontWeight:'700', margin:14 }}>Start your Crypto Protofolio Now</Text>
+      <Text style={{fontSize: 18, fontWeight:'700', margin:14 }}>Start your Crypto Portfolio Now</Text>
       <Text style={{fontSize: 14, fontWeight:'400', marginBottom: 8}}>🚀 Set up customize watchlist</Text>
       <Text style={{fontSize: 14, fontWeight:'400', marginBottom: 4}}>🌕 Manage your crypto investments</Text>
       <View style={styles.buttonContainer}>

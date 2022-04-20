@@ -95,7 +95,7 @@ const PortofolioDetailScreen = () => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate("CoinDetail")}>
-              <Text style={styles.buttonText}>Add Coin to Portofolio List</Text>
+              <Text style={styles.buttonText}>Add Coin to Portfolio List</Text>
             </TouchableOpacity>
           </View>
 
