@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { AreaChart, LineChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape'
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
+import { collection, addDoc, setDoc, doc} from "firebase/firestore";
+import { db } from '../../../firebase'
 const styles = StyleSheet.create({
   itemWrapper: {
     flex: 1,
@@ -80,7 +81,13 @@ const CoinItem = ({ id, name, symbol, current_price, price_change_percentage_24h
   const changeIcon = price_change_percentage_24h > 0 ? "caretup" : "caretdown"
 
   const formattedData = formatPriceData(sparkline_in_7d.price, price_change_percentage_24h);
+
   //console.log(formattedData)
+  // useEffect(() => {
+  //   setDoc(doc(db, "coins", name), {
+  //     id: id,
+  //     symbol: symbol,
+  // })}, [])
   function truncate(string, length) {
     if (string.length > length)
       return string.substring(0, length) + '...';

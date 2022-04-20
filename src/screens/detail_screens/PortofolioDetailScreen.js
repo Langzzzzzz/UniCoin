@@ -58,7 +58,7 @@ const PortofolioDetailScreen = () => {
       <View style={styles.itemWrapper}>
         <View style={styles.middleWrapper}>
           <View style={styles.titleContainer}>
-            <Text style={{ color: "black", fontSize: 16, fontWeight: "600" }}>        {data?.username}'s Portofolio</Text>
+            <Text style={{ color: "black", fontSize: 16, fontWeight: "600" }}>        {data?.username}'s Portfolio</Text>
           </View>
         </View>
         <View style={styles.navContainer}>
@@ -68,7 +68,7 @@ const PortofolioDetailScreen = () => {
         </View>
       </View>
       <View>
-        <CustomSwitch selectionMode={1} option1="Watchlist" option2="Portofolio" onSelectSwitch={onSelectSwitch} />
+        <CustomSwitch selectionMode={1} option1="Watchlist" option2="Portfolio" onSelectSwitch={onSelectSwitch} />
       </View>
       {/* Watchlist */}
       {
