@@ -40,7 +40,7 @@ const Chart = ({ symbol, name, current_price, price_change_percentage_24h, spark
                             <Image source={{ uri: image }} style={styles.image} />
                             <Text style={styles.subtitle}>{name} ({symbol.toUpperCase()})</Text>
                         </View>
-                        <Text style={styles.subtitle}>7d</Text>
+                        <Text style={styles.subtitle}>24h</Text>
                     </View>
                     <View style={styles.lowerTitles}>
                         <ChartYLabel
