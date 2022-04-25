@@ -24,7 +24,7 @@ const SignupDetailScreen = ({ navigation }) => {
           email: res.user.email,
           username: username,
           watchlist: ["bitcoin", "ethereum", "tether", "avalanche-2", "binance-usd", "dogecoin"],
-          portfolio: [{"coinID": "bitcoin", "priceNumberPair": [400, 5]}, {"coinID": "avalanche-2", "priceNumberPair": [40, 10]}, {"coinID": "dogecoin", "priceNumberPair": [10, 20]}],
+          portfolio: [],
         })
       })
       .catch((err) => {

@@ -16,7 +16,7 @@ const NotFound = ({navigation}) => {
 
     <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
       <Image source={require('../../assets/Page_not_found.png')} style={{height: 350, width: 350}} />
-      <Text style={{fontSize: 18, fontWeight: "400"}}>Not Results</Text>
+      <Text style={{fontSize: 18, fontWeight: "400"}}>Not Found</Text>
     </View>
     </>
   )

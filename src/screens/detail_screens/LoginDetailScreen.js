@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity, SafeAreaView, Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CustomInput from '../../components/Signup/CustomInput'
 import { AntDesign } from '@expo/vector-icons';
@@ -26,7 +26,9 @@ const LoginDetailScreen = ({ navigation }) => {
     console.log("Login button ; " + username + " ; " + password);
     signInWithEmailAndPassword(auth, username, password)
       .then((res) => { console.log(res); setSignedIn(true); })
-      .catch((err) => { console.log(err); })
+      .catch((err) => { Alert.alert("Error", "Please try again", [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]); })
   }
 
   return (

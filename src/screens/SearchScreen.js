@@ -28,7 +28,7 @@ const SearchScreen = () => {
         <Text style={{
           fontSize: 24,
           backgroundColor: "#fff", marginBottom: 12, marginHorizontal: 18
-        }}>🔥 Trending Seach</Text>
+        }}>🔥 Trending Search</Text>
       </View>
 
       <View style={{
