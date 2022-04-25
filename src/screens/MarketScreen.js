@@ -8,7 +8,7 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import { getMarketData } from '../../services/cryptoService';
-
+// idea from https://www.youtube.com/watch?v=0JG1_9xqC6A&list=PLYBvEAka-q1iX72JXlrEez7ko4X6nGZ9m&index=1&t=1280s
 const styles = StyleSheet.create({
   bottomSheet: {
     shadowColor: '#000',
