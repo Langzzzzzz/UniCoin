@@ -1,2 +1,3 @@
 # UniCoin
 
+Honour Project
